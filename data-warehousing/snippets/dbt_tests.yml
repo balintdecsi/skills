@@ -1,0 +1,62 @@
+# =============================================================================
+# dbt schema tests — equivalents of the SKILL's "minimum bar" validations.
+# Inspired by ECBS5294: https://github.com/earino/ECBS5294
+#
+# Place this in models/silver/_silver__models.yml (or similar) in your dbt project.
+# Built-in tests: unique, not_null, accepted_values, relationships.
+# For range/expression checks, use dbt_utils.expression_is_true or
+# dbt-expectations (e.g. expect_column_values_to_be_between).
+# =============================================================================
+
+version: 2
+
+models:
+  - name: silver_orders
+    description: "One row per order_id. Cleaned, typed, deduped from bronze_orders."
+    columns:
+      - name: order_id
+        description: "Primary key. Surrogate from source system."
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "FK to silver_customers."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_customers')
+              field: customer_id
+      - name: order_date
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= '2015-01-01' and order_date <= current_date"
+      - name: total_amount
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['pending', 'completed', 'cancelled']
+
+  - name: gold_daily_revenue_by_status
+    description: "Daily revenue per status. Grain: (date, status)."
+    tests:
+      # Composite-key uniqueness via dbt_utils:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date
+            - status
+    columns:
+      - name: date
+        tests:
+          - not_null
+      - name: status
+        tests:
+          - not_null
+      - name: revenue
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
