@@ -16,6 +16,8 @@ From [agentskills.io](https://agentskills.io):
 
 ## Adding skills
 
+When I create skills myself (e.g. for data science and machine learning best practices and industry standards), I reference the public repositories where I take inspiration from in the skill markdown.
+
 When I want to add an already existing skill from the web, I use the [skills.sh](https://skills.sh) tool:
 
 ```bash
