@@ -16,7 +16,7 @@ From [agentskills.io](https://agentskills.io):
 
 ## Adding skills
 
-When I want to add an already existing skill from the web, I use the [skills.sh](https://agentskills.io) tool:
+When I want to add an already existing skill from the web, I use the [skills.sh](https://skills.sh) tool:
 
 ```bash
 npx skills add
