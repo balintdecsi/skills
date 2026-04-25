@@ -93,7 +93,7 @@ Default to three layers. Add more only when you can name the concrete pain it so
 - [ ] Each table has its **grain** documented in one sentence.
 - [ ] Each silver/gold table has a **declared PK** and a **uniqueness assertion**.
 - [ ] Required fields have **non-null assertions**.
-- [ ] Every transform uses `CREATE OR REPLACE` / `MERGE` (idempotent).
+- [ ] Every transform uses `CREATE OR REPLACE` or a `MERGE` written idempotently (deterministic updates only).
 - [ ] Bronze is untouched after ingest.
 - [ ] No absolute paths.
 - [ ] Re-running end-to-end produces identical output.

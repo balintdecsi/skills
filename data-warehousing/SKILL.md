@@ -114,7 +114,7 @@ Patterns that are **not** idempotent (avoid unless you really mean it):
 
 - Uppercase keywords, lowercase identifiers, one clause per line, trailing commas off.
 - Always alias tables in joins (`o`, `c`) and qualify every column.
-- Prefer `LEFT JOIN` + explicit `WHERE x.id IS NOT NULL` for anti-joins (clearer than `NOT IN`, NULL-safe).
+- Prefer `LEFT JOIN` + explicit `WHERE right_table.id IS NULL` for anti-joins (clearer than `NOT IN`, NULL-safe).
 - Use CTEs (`WITH`) to layer logic; avoid deep nested subqueries.
 - Use `TRY_CAST` (or the engine's safe-cast equivalent) on untrusted source data; bare `CAST` belongs only on already-validated silver.
 - Handle NULLs explicitly with `IS NULL`, `IS NOT NULL`, `COALESCE`. Never compare with `= NULL`.

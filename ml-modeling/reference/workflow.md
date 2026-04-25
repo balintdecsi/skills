@@ -41,9 +41,13 @@ The held-out test set is now **frozen**. Do not look at it again until step 9.
 
 ```python
 from sklearn.dummy import DummyRegressor, DummyClassifier
+from sklearn.model_selection import cross_val_score
 
-baseline = DummyRegressor(strategy="mean").fit(X_train, y_train)
-print("baseline test:", metric(y_test, baseline.predict(X_test)))
+baseline = DummyRegressor(strategy="mean")
+baseline_scores = cross_val_score(
+    baseline, X_train, y_train, cv=5, scoring="neg_root_mean_squared_error"
+)
+print(f"baseline CV RMSE = {-baseline_scores.mean():.3f} ± {baseline_scores.std():.3f}")
 ```
 
 Add this row to your leaderboard. Every subsequent model must beat it. If a "fancy" model can't, the bug is in your features, not the algorithm.
