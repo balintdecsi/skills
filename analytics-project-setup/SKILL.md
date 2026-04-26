@@ -211,23 +211,28 @@ password = os.getenv("DB_PASSWORD")
 
 ## Pre-commit Hook: Clearing Notebook Outputs
 
-**Non-negotiable.** Notebook outputs bloat repos, leak data, and cause merge conflicts. Use the `pre-commit` framework with `nbstripout`:
-
-```yaml
-# .pre-commit-config.yaml
-repos:
-  - repo: https://github.com/kynan/nbstripout
-    rev: 0.7.1
-    hooks:
-      - id: nbstripout
-```
+**Non-negotiable.** Notebook outputs bloat repos, leak data, and cause merge conflicts. Use a direct Git hook at `.git/hooks/pre-commit` (no extra hook framework):
 
 ```bash
-pip install pre-commit  # or: uv add --dev pre-commit
-pre-commit install
+cat > .git/hooks/pre-commit <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Clear outputs for staged notebooks only, then re-stage them.
+staged_notebooks="$(git diff --cached --name-only --diff-filter=ACM -- '*.ipynb')"
+[ -z "${staged_notebooks}" ] && exit 0
+
+while IFS= read -r notebook; do
+  [ -f "${notebook}" ] || continue
+  jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace "${notebook}"
+  git add "${notebook}"
+done <<< "${staged_notebooks}"
+EOF
+
+chmod +x .git/hooks/pre-commit
 ```
 
-Alternatively, a manual bash pre-commit hook using `jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace` works too.
+This relies on the standard Jupyter/ipykernel environment (`jupyter`, `nbconvert`, `ipykernel`) already included in project dependencies.
 
 ## Git Configuration
 
