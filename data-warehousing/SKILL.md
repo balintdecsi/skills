@@ -185,6 +185,20 @@ Document source URL, download date, and licence next to the load.
   - `references/pipeline_patterns_quick_reference.md` — original bronze/silver/gold quick reference.
   - `references/tidy_data_checklist.md` — tidy data + PK validation patterns.
   - `notebooks/day3/day3_block_a_pipelines_and_validations.ipynb` — full worked example.
+
+Production analytics project templates (database I/O patterns):
+
+- Reusable analytics project patterns — include `dev/src/io.py` style SQL helpers, EDA utilities, and shared config/constants modules.
+
+Companion skills:
+
+- **`analytics-project-setup`** — folder structure, database/storage I/O helpers, AGENTS.md, environment management.
+- **`ml-modeling`** — for the modelling phase that consumes the gold-layer data.
+- **`statistical-modeling`** — for inferential analysis on cleaned data.
+- **`designing-analytics-projects`** — for the pre-code project brief.
+
+External:
+
 - Hadley Wickham, *Tidy Data* (2014).
 - Kimball & Ross, *The Data Warehouse Toolkit* — for star-schema and dimensional modeling depth.
 - dbt docs on tests and model contracts: <https://docs.getdbt.com/docs/build/data-tests>.

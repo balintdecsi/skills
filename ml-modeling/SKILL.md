@@ -35,6 +35,10 @@ For pure inference / explanation work (OLS coefficient interpretation, confidenc
 - `matplotlib` + `seaborn` for plots.
 - `optuna` *only* when sklearn's `GridSearchCV` / `RandomizedSearchCV` is genuinely too slow.
 - For experiment tracking: a plain DataFrame leaderboard is often enough (see `ResultCollector` below). Reach for MLflow / W&B when you have many runs across sessions.
+- `shap` for model interpretation and feature importance (standard in production analytics projects).
+- `ydata-profiling` (formerly `pandas-profiling`) for automated EDA reports.
+- `missingno` for missing-data visualisation.
+- `joblib` for model serialisation (prefer over `pickle` — handles large NumPy arrays better).
 
 Keep the stack boring. Sometimes a `print(score)` in a notebook cell beats wiring a tracker.
 
@@ -51,19 +55,21 @@ Keep the stack boring. Sometimes a `print(score)` in a notebook cell beats wirin
 
 ## The Workflow
 
-When asked to build a predictive model, follow this skeleton:
+When asked to build a predictive model, follow this skeleton (aligned with Géron's [ML project checklist](https://github.com/ageron/handson-ml3/blob/main/ml-project-checklist.md)):
 
 ```
-1. Frame:    What are we predicting? What metric matters?
-2. Split:    Train / test (and time-aware if temporal data!).
-3. Baseline: Mean / majority. Beat this or stop.
-4. Pipeline: ColumnTransformer + estimator. No leakage possible.
-5. Cross-validate the train set with a fair CV scheme.
-6. Add candidates one at a time, log to leaderboard.
-7. Tune the best 1-2 with GridSearchCV / RandomizedSearchCV.
-8. Decide a threshold (classification) using a business loss function.
-9. Final fit on full train, evaluate ONCE on held-out test.
-10. Report: leaderboard, key plots, confusion matrix, calibration if relevant.
+1. Frame:    What are we predicting? What metric matters? (→ designing-analytics-projects skill)
+2. Get data: Automate ingestion; sample a test set, put it aside, never look at it.
+3. Explore:  EDA in a dedicated notebook — distributions, correlations, target leakage checks.
+4. Prepare:  Write transform functions, not ad-hoc cells. Treat prep choices as hyperparams.
+5. Baseline: Mean / majority. Beat this or stop.
+6. Pipeline: ColumnTransformer + estimator. No leakage possible.
+7. Short-list: Cross-validate 3–5 model families on the train set, log to leaderboard.
+8. Tune:     GridSearchCV / RandomizedSearchCV on the best 1–2.
+9. Threshold: (Classification) Pick a cutoff using a business loss function.
+10. Evaluate: Final fit on full train, evaluate ONCE on held-out test.
+11. Present:  Leaderboard, key plots, confusion matrix, limitations. Highlight the big picture.
+12. Monitor:  In production, track input quality and model drift (PSI) over time.
 ```
 
 For details on each step see [reference/workflow.md](reference/workflow.md). For ready-to-paste code see [snippets/](snippets/).
@@ -164,6 +170,36 @@ When comparing two models, **don't trust a single test-set number** if the gap i
 
 Code and decision rules in [reference/significance.md](reference/significance.md). For the full statistical-inference toolkit (OLS coefficients, confidence intervals on coefficients, prediction intervals), see the **`statistical-modeling`** skill.
 
+## Data Drift Monitoring (PSI)
+
+In production, monitor whether feature distributions have shifted since training using the **Population Stability Index (PSI)**:
+
+| PSI | Interpretation | Action |
+|---|---|---|
+| < 0.1 | Stable | No action |
+| 0.1 – 0.2 | Moderate drift | Investigate |
+| > 0.2 | Significant shift | Retrain |
+
+Compute PSI by binning the training (expected) and production (actual) distributions and comparing proportions. Implementations for both continuous and categorical features are in [snippets/datadrift_psi.py](snippets/datadrift_psi.py). This is a standard industry technique — also emphasised in Géron's "Launch!" checklist step: *"monitor your inputs' quality"*.
+
+## Data Preparation Best Practices
+
+- **Outlier handling:** Use Tukey's IQR method or z-score filtering, but always **document and justify** removals — explain *why* values are invalid, not just extreme.
+- **Feature selection:** For high-dimensional datasets, a quick correlation-with-target filter (`corrwith().abs() > threshold`) is a useful coarse screen before building pipelines. Not a substitute for proper feature importance.
+- **Write transform functions**, not ad-hoc notebook cells — so you can reuse them on test data, new data, and treat prep choices as hyperparameters (Géron ch. 2).
+
+## Model Serialisation
+
+Prefer `joblib` over `pickle` — it handles large NumPy arrays better:
+
+```python
+import joblib
+joblib.dump(pipe, 'models/model_v2.pkl')
+pipe = joblib.load('models/model_v2.pkl')
+```
+
+For project structure (`dev/models/` → `prod/models/` split), see the **`analytics-project-setup`** skill.
+
 ## Notebook Hygiene
 
 - Set seeds at the top: `np.random.seed(42)`, `random_state=42` everywhere.
@@ -171,6 +207,10 @@ Code and decision rules in [reference/significance.md](reference/significance.md
 - One `Pipeline` per model, named clearly (`pipe_xgb`, `pipe_logit_l2`).
 - Plot calibration curves and confusion matrices in classification work — accuracy alone hides a lot.
 - "Restart & Run All" must succeed before you commit.
+- **Number notebooks by execution order** (`01_features.ipynb`, `02_exploration.ipynb`, …) — see the `analytics-project-setup` skill.
+- Use `%load_ext autoreload` / `%autoreload 2` to hot-reload `dev/src/` modules during development.
+- Keep reusable utilities (EDA, I/O, drift checks) in `dev/src/` and import them — don't copy-paste between notebooks.
+- Clear notebook outputs before committing — set up the pre-commit hook from `analytics-project-setup`.
 
 ## Anti-Patterns to Flag in Reviews
 
@@ -182,6 +222,10 @@ Code and decision rules in [reference/significance.md](reference/significance.md
 - `accuracy_score` on a 95/5 imbalanced dataset.
 - One mega-cell that does load + preprocess + fit + plot — split it.
 - Re-using the test set for "one more tweak". The test set is sacred.
+- No data drift monitoring between training data and production inference data.
+- Hardcoded file paths instead of shared config/constants — see `analytics-project-setup` skill.
+- Model saved as `.pkl` with no versioning or naming convention.
+- No `dev/prod` separation — exploratory and production code in the same folder.
 
 ## Code Snippets
 
@@ -230,16 +274,24 @@ which is a clean pattern.
 Inspiration repos (check these for full worked examples):
 
 - `ceu-ml` — model comparison, pipelines on bike-share, transfer learning, bias-variance.
-- `Data-Analysis-3` — Assignment 2 modelling notebook is a great cross-validated classifier walk-through with business-loss thresholding.
-- `python-for-data-analysis` — `class-13` to `class-17` cover the prediction framework, lasso + grid search, regression trees, random forests + boosting, classification.
-- `ceu-coding-2` — gentle intro to regression workflows.
-- `da_data_repo` — many tidy datasets used by Békés–Kézdi *Data Analysis for Business, Economics, and Policy* (upstream: <https://github.com/gabors-data-analysis>).
+- `Data-Analysis-3` — cross-validated classifier walk-through with business-loss thresholding.
+- `python-for-data-analysis` — `class-13` to `class-17` cover the prediction framework, lasso + grid search, random forests + boosting, classification.
+- `da_data_repo` — tidy datasets from Békés–Kézdi (upstream: <https://github.com/gabors-data-analysis>).
+- A clear production-oriented structure — e.g. `dev/prod` split and shared utility modules.
+
+Companion skills:
+
+- **`analytics-project-setup`** — folder structure, branching, AGENTS.md, environment management.
+- **`statistical-modeling`** — for inferential/explanatory modelling (OLS coefficients, confidence intervals, significance tests).
+- **`data-warehousing`** — for bronze/silver/gold data pipeline patterns feeding into ML models.
 
 External:
 
+- Géron, *Hands-On Machine Learning with Scikit-Learn, Keras and TensorFlow*, 3rd ed. — the industry-standard textbook. [ML project checklist](https://github.com/ageron/handson-ml3/blob/main/ml-project-checklist.md) and [worked notebooks](https://github.com/ageron/handson-ml3).
 - [scikit-learn user guide](https://scikit-learn.org/stable/user_guide.html) — especially Pipeline, model_selection, metrics.
-- [Raschka, *Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning*](https://arxiv.org/abs/1811.12808) — the canonical paper on doing this properly.
+- [Raschka, *Model Evaluation, Model Selection, and Algorithm Selection in ML*](https://arxiv.org/abs/1811.12808).
+- [SHAP documentation](https://shap.readthedocs.io/) — for model interpretation.
 
 ---
 
-*These patterns are suggestions, not gospel. When in doubt, prefer **simpler models + honest evaluation** over exotic techniques.*
+*Suggestions, not gospel. When in doubt, prefer **simpler models + honest evaluation** over exotic techniques.*

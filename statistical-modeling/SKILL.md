@@ -35,8 +35,10 @@ Auto-apply when the task involves:
 - `stargazer` — side-by-side regression tables (the package used across `python-for-data-analysis` and `ceu-coding-2`).
 - `scipy.stats` — t-tests, F-tests, Wilcoxon, etc. when you need raw tests.
 - `pandas`, `numpy`, `matplotlib`, `seaborn` for the rest.
+- `ydata-profiling` (formerly `pandas-profiling`) for automated EDA reports — especially useful for the exploratory phase before specifying a model.
+- `missingno` for missing-data visualisation.
 
-For **predictive** workflows (cross-validation, held-out test sets, leaderboards) → switch to the `ml-modeling` skill and use `scikit-learn`.
+For **predictive** workflows (cross-validation, held-out test sets, leaderboards) → switch to the `ml-modeling` skill and use `scikit-learn`. For **project setup** (folder structure, environments) → see the `analytics-project-setup` skill.
 
 ## Core Principles
 
@@ -175,6 +177,22 @@ That's: estimate, CI, p-value, plain-English interpretation. **Always include th
 - Comparing models by R² alone — penalise complexity (adj-R², BIC) or compare on a held-out set.
 - Treating logistic-regression coefficients as probabilities (they're log-odds).
 
+## Automated EDA / Profiling Before Modelling
+
+Before specifying a model, run an automated profile to catch data quality issues:
+
+```python
+from ydata_profiling import ProfileReport
+profile = ProfileReport(df, minimal=True)   # minimal=True for large datasets
+profile.to_file('eda_report.html')
+```
+
+For quick missing-data diagnostics: `import missingno as msno; msno.matrix(df)` — shows nullity patterns at a glance.
+
+## Data Preparation Utilities
+
+Standardise column names early (`df.columns = df.columns.str.replace('-', '_').str.replace(' ', '_').str.lower()`). For full column-locking helpers (`name_lock`, `type_lock`), see the `analytics-project-setup` skill.
+
 ## Code Snippets
 
 In [snippets/](snippets/):
@@ -235,11 +253,18 @@ Inspiration repos (check these for full worked examples):
 - `da_data_repo` (upstream: <https://github.com/gabors-data-analysis>) — companion datasets for the Békés–Kézdi book; `da_case_studies` (<https://github.com/gabors-data-analysis/da_case_studies>) has chapter notebooks.
 - `Data-Analysis-3` — connects this to predictive evaluation under business loss.
 
+Companion skills:
+
+- **`ml-modeling`** — for predictive evaluation (cross-validation, leaderboards, threshold tuning).
+- **`analytics-project-setup`** — for project scaffolding and `AGENTS.md`.
+- **`data-warehousing`** — for bronze/silver/gold pipeline patterns.
+
 External:
 
 - Békés & Kézdi, *Data Analysis for Business, Economics, and Policy* (the textbook the `da_*` repos accompany).
-- [statsmodels user guide](https://www.statsmodels.org/stable/user-guide.html) — especially "Linear Regression" and "Robust Statistics".
-- [Stargazer for Python](https://github.com/StatsReporting/stargazer) — package + examples.
+- Géron, *Hands-On Machine Learning with Scikit-Learn, Keras and TensorFlow*, 3rd ed. — ch. 2–4 cover complementary data preparation and model training practices.
+- [statsmodels user guide](https://www.statsmodels.org/stable/user-guide.html).
+- [Stargazer for Python](https://github.com/StatsReporting/stargazer).
 
 ---
 

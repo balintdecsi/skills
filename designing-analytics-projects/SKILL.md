@@ -34,7 +34,7 @@ Quote those facts directly in the brief instead of paraphrasing into something m
 - The user is preparing to talk to stakeholders, kicking off a new analysis, or sanity-checking scope.
 - Any mention of: counter-metrics, guardrails vs tradeoffs, Goodhart's Law, pre-mortem, Power-Interest Grid, stakeholder map, decision criteria, "what breaks if we succeed."
 
-Do **not** auto-trigger for purely technical tasks (training a model, writing SQL, building a pipeline). The brief is the *pre-code* artifact.
+Do **not** auto-trigger for purely technical tasks (training a model, writing SQL, building a pipeline). The brief is the *pre-code* artifact. Once the brief is approved and you're ready to set up the actual repository, switch to the **`analytics-project-setup`** skill.
 
 ## The 10 Sections (one-line each)
 
@@ -148,6 +148,18 @@ Source: `cheatsheet.md` in the course repo (the one-A4 exam cheat sheet — conc
 9. **Pre-mortem last** — it depends on everything above.
 10. **Re-read the scenario.** Did you contradict any stated fact? Did you invent any number? Fix.
 
+## From Brief to Technical Setup
+
+Once the brief is approved, the next step is technical project scaffolding. Use the **`analytics-project-setup`** skill to:
+
+1. Create the analytics repository.
+2. Create the folder structure (`dev/prod` split, `data/`, numbered notebooks).
+3. Set up shared config/constants, `.gitignore`, pre-commit hooks.
+4. Write `README.md` using the structured template in the setup skill.
+5. Create `AGENTS.md` so AI agents understand the project context.
+
+The brief defines *what* you're building and *why*. The setup skill handles *how* the repo is structured.
+
 ## Further Reference
 
 - **Course repo (the source of truth):** <https://github.com/earino/designing-analytics-projects>
@@ -159,6 +171,14 @@ Source: `cheatsheet.md` in the course repo (the one-A4 exam cheat sheet — conc
 - *Designing Experimentation Guardrails*, Airbnb Engineering — the canonical counter-metrics reference.
 - *Getting to Yes* (Fisher, Ury, Patton), ch. 1–3 — for the influence / blocker chapters of any brief.
 - Goodhart's Law: *"When a measure becomes a target, it ceases to be a good measure."* — the reason counter-metrics exist.
+- Géron, [ML project checklist](https://github.com/ageron/handson-ml3/blob/main/ml-project-checklist.md) — his "Frame the problem" section is a complementary checklist to the Analytics Project Brief.
+
+Companion skills:
+
+- **`analytics-project-setup`** — technical scaffolding, folder structure, AGENTS.md, environments. **Use after the brief is approved.**
+- **`ml-modeling`** — for building and evaluating predictive models.
+- **`statistical-modeling`** — for inferential/explanatory analysis.
+- **`data-warehousing`** — for data pipeline architecture.
 
 ---
 
