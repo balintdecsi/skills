@@ -271,6 +271,13 @@ External documentation:
 - [contextily docs](https://contextily.readthedocs.io/)
 - A nice file-format comparison the course links to: <https://milanjanosov.substack.com/p/geospatial-file-formats>
 
+Companion skills:
+
+- **`analytics-project-setup`** — folder structure, settings, and AGENTS.md for projects that include geospatial components.
+- **`ml-modeling`** — for predictive modelling on geospatial features (e.g. nearest-neighbour-derived features, spatial aggregations as ML inputs).
+- **`statistical-modeling`** — for spatial regression (PySAL/spreg) and inferential analysis with geospatial data.
+- **`data-warehousing`** — for ETL pipelines that include geospatial data sources.
+
 ---
 
 *Suggestions, not gospel. When in doubt, **check the CRS first** — it's the answer to most "why is my map weird?" questions.*
