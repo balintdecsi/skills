@@ -119,6 +119,31 @@ Patterns that are **not** idempotent (avoid unless you really mean it):
 - Use `TRY_CAST` (or the engine's safe-cast equivalent) on untrusted source data; bare `CAST` belongs only on already-validated silver.
 - Handle NULLs explicitly with `IS NULL`, `IS NOT NULL`, `COALESCE`. Never compare with `= NULL`.
 
+## Notebooks: embedding SQL
+
+When placing multiline SQL scripts into notebooks, always put the SQL text in its own cell and make it callable from another cell. Declare the SQL as a Python multiline string using triple quotes """ followed by a newline, the SQL, a newline, and the closing """. Keep execution logic separate from the SQL declaration so queries are readable and reusable.
+
+Example pattern (Python notebook):
+
+Cell 1 — SQL declaration:
+query = """
+SELECT
+  user_id,
+  COUNT(*) AS events
+FROM events
+WHERE event_date >= '2026-01-01'
+GROUP BY user_id;
+"""
+
+Cell 2 — Execution / use:
+df = run_sql(query)  # run_sql is your DB helper that accepts a SQL string
+display(df)
+
+Notes:
+- Use descriptive variable names like `orders_sql` or `daily_revenue_sql`.
+- Do not embed execution logic inside the SQL declaration cell.
+- This pattern works for Jupyter/Colab and keeps SQL testable, lintable, and copy-pastable into other environments.
+
 ## Recommended Workflow
 
 When asked to build or modify a pipeline:
