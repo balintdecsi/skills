@@ -5,11 +5,9 @@ description: Best-practice suggestions for time series exploration and forecasti
 
 # Time Series Forecasting Best Practices
 
-These are **suggestions**, not absolute rules. They are based on the user's CEU time-series forecasting repository and gently refined with standard forecasting practice.
+These are **suggestions**, not absolute rules. They are based on the CEU Time Series Forecasting course materials and gently refined with standard forecasting practice.
 
-Primary inspiration:
-
-- `ceu-time-series-forecasting` — CEU class materials covering aggregation, temporal patterns, seasonal decomposition, ACF/PACF, ARIMA/SARIMA, AutoGluon, and electricity / beer / passenger forecasting examples.
+**Primary inspiration:** <https://github.com/francescaconselvan/time_series_forecasting> (Francesca Conselvan) — aggregation, temporal patterns, seasonal decomposition, ACF/PACF, ARIMA/SARIMA, AutoGluon, and electricity / beer / passenger forecasting examples.
 
 Companion skills:
 
@@ -232,7 +230,7 @@ Always show a plot of actual vs forecast for the test period. Metrics alone hide
 
 ## Data Sources for Practice
 
-From the CEU repository:
+From the [course repository](https://github.com/francescaconselvan/time_series_forecasting):
 
 - UK electricity demand, wind, and solar generation, half-hourly / daily examples.
 - Smart meter electricity consumption.

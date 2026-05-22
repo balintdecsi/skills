@@ -1,7 +1,7 @@
 """
 End-to-end scikit-learn modelling scaffold.
 
-Inspired by ceu-ml and Data-Analysis-3 (CEU MSBA). Adapt column names,
+Inspired by https://github.com/divenyijanos/ceu-ml and https://github.com/gabors-data-analysis/da_case_studies. Adapt column names,
 estimator, and metric to the task. The structure is the point.
 
 Pattern:

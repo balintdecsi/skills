@@ -1,7 +1,7 @@
 """
 ResultCollector — running leaderboard for model comparison.
 
-Adapted from the pattern in ceu-ml/notebooks/class5_bike_share_demand.ipynb
+Adapted from https://github.com/divenyijanos/ceu-ml/blob/2026/notebooks/class5_bike_share_demand.ipynb
 (CEU MSBA "Data Science 3: Machine Learning Concepts and Tools").
 
 Drop into any modelling notebook to keep a styled, sortable leaderboard

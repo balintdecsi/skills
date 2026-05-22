@@ -49,11 +49,11 @@ Do **not** auto-trigger for purely technical tasks (training a model, writing SQ
 9. **Ethics & Privacy** — PII? bias against protected groups? GDPR review? mitigations.
 10. **Pre-Mortem** — *"It's 3 months from now and this failed. What happened?"* Tell the **causal story** ("we did X, Y happened, because Z"). This surfaces the risks Section 8 misses.
 
-A blank template lives at `~/repos/ceu/designing-analytics-projects/templates/analytics_project_brief.md` and as [snippets/brief_template.md](snippets/brief_template.md) in this skill. Use it as the literal scaffold.
+A blank template lives in the [course repo](https://github.com/earino/designing-analytics-projects/blob/main/templates/analytics_project_brief.md) and as [snippets/brief_template.md](snippets/brief_template.md) in this skill. Use it as the literal scaffold.
 
 ## Quality Bar — what makes a brief strong
 
-The course's rubric (see `syllabus.md`) rewards four things, in this order:
+The course's rubric (see [syllabus.md](https://github.com/earino/designing-analytics-projects/blob/main/syllabus.md)) rewards four things, in this order:
 
 1. **Metric definition precision.** Not "conversion rate" but "users with `signup_complete` on day 0 → users with ≥1 `app_open` on calendar day 7, eligible cohort: web signups in last 6 months." If you can't write the SQL, the definition isn't done.
 2. **Counter-metrics that show adversarial thinking.** What breaks if we hit the target? Sugar-diet growth, zombie retention, casual-user alienation, brand-trust erosion. Two to three is the right number — five looks like padding.
@@ -99,23 +99,23 @@ Then for each High-Power-High-Interest person, decide: **Champion** or **Blocker
 
 ## Worked Examples in the Repo (read at least two before drafting)
 
-In `~/repos/ceu/designing-analytics-projects/templates/examples/` there is one fully-worked brief per foundational analysis:
+In [templates/examples/](https://github.com/earino/designing-analytics-projects/tree/main/templates/examples) there is one fully-worked brief per foundational analysis:
 
 | Analysis | Example | Company |
 |---|---|---|
-| Funnel | `brief_01_funnel_analysis.md` | Quickcart |
-| Channel Attribution | `brief_02_channel_attribution.md` | DataDash |
-| Campaign Effectiveness | `brief_03_campaign_effectiveness.md` | BrightMart |
-| CAC / LTV | `brief_04_cac_ltv.md` | MindfulApp |
-| Retention | `brief_05_retention_analysis.md` | SnapGram |
-| Power User | `brief_06_power_user_analysis.md` | Streamflix |
-| Failure Analysis | `brief_07_failure_analysis.md` | FindIt |
-| Expansion / Monetisation | `brief_08_expansion_monetization.md` | NoteSpace |
-| Ecosystem | `brief_09_ecosystem_analysis.md` | SocialSuite |
+| Funnel | [brief_01_funnel_analysis.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/examples/brief_01_funnel_analysis.md) | Quickcart |
+| Channel Attribution | [brief_02_channel_attribution.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/examples/brief_02_channel_attribution.md) | DataDash |
+| Campaign Effectiveness | [brief_03_campaign_effectiveness.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/examples/brief_03_campaign_effectiveness.md) | BrightMart |
+| CAC / LTV | [brief_04_cac_ltv.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/examples/brief_04_cac_ltv.md) | MindfulApp |
+| Retention | [brief_05_retention_analysis.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/examples/brief_05_retention_analysis.md) | SnapGram |
+| Power User | [brief_06_power_user_analysis.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/examples/brief_06_power_user_analysis.md) | Streamflix |
+| Failure Analysis | [brief_07_failure_analysis.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/examples/brief_07_failure_analysis.md) | FindIt |
+| Expansion / Monetisation | [brief_08_expansion_monetization.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/examples/brief_08_expansion_monetization.md) | NoteSpace |
+| Ecosystem | [brief_09_ecosystem_analysis.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/examples/brief_09_ecosystem_analysis.md) | SocialSuite |
 
 Pick the example whose analysis type matches the scenario at hand and mirror its **section depth, table formats, and tone**.
 
-The user's own assignment brief — `~/repos/ceu/designing-analytics-projects/assignments/learnloop_project_brief.md` — is also a strong reference for the depth and style expected on a real submission, drafted from `scenarios/scenario_03_learnloop.md`.
+The [LearnLoop scenario](https://github.com/earino/designing-analytics-projects/blob/main/scenarios/scenario_03_learnloop.md) is a strong reference for the depth and style expected on a real submission brief.
 
 ## Foundational Analysis Cheatsheet (which one fits the scenario?)
 
@@ -133,7 +133,7 @@ Match the business question to an analysis type, then mirror that example brief.
 | Why do users upgrade / pay more? | Expansion & Monetisation | Free-user churn from over-monetisation |
 | Do products help or cannibalise each other? | Ecosystem | Selection bias on multi-product users |
 
-Source: `cheatsheet.md` in the course repo (the one-A4 exam cheat sheet — concentrated wisdom).
+Source: [cheatsheet.md](https://github.com/earino/designing-analytics-projects/blob/main/cheatsheet.md) in the course repo (the one-A4 exam cheat sheet — concentrated wisdom).
 
 ## Suggested Workflow When Drafting from a Scenario
 
@@ -163,11 +163,11 @@ The brief defines *what* you're building and *why*. The setup skill handles *how
 ## Further Reference
 
 - **Course repo (the source of truth):** <https://github.com/earino/designing-analytics-projects>
-  - `templates/analytics_project_brief.md` — blank template (also at `snippets/brief_template.md` in this skill).
-  - `templates/examples/` — 9 worked briefs, one per foundational analysis.
-  - `cheatsheet.md` — the one-A4 distillation; the densest reference in the repo.
-  - `scenarios/` — 18 practice scenarios.
-  - `syllabus.md` — full course structure, rubric, and reading list.
+  - [templates/analytics_project_brief.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/analytics_project_brief.md) — blank template (also at `snippets/brief_template.md` in this skill).
+  - [templates/examples/](https://github.com/earino/designing-analytics-projects/tree/main/templates/examples) — 9 worked briefs, one per foundational analysis.
+  - [cheatsheet.md](https://github.com/earino/designing-analytics-projects/blob/main/cheatsheet.md) — the one-A4 distillation; the densest reference in the repo.
+  - [scenarios/](https://github.com/earino/designing-analytics-projects/tree/main/scenarios) — 18 practice scenarios.
+  - [syllabus.md](https://github.com/earino/designing-analytics-projects/blob/main/syllabus.md) — full course structure, rubric, and reading list.
 - *Designing Experimentation Guardrails*, Airbnb Engineering — the canonical counter-metrics reference.
 - *Getting to Yes* (Fisher, Ury, Patton), ch. 1–3 — for the influence / blocker chapters of any brief.
 - Goodhart's Law: *"When a measure becomes a target, it ceases to be a good measure."* — the reason counter-metrics exist.

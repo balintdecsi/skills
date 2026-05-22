@@ -1,8 +1,8 @@
 """
 Significance testing for ML model comparison.
 
-Inspired by the inferential discipline in `python-for-data-analysis` and
-`Data-Analysis-3` (CEU MSBA), applied to ML model comparison.
+Inspired by the inferential discipline in https://github.com/gabors-data-analysis/da_case_studies,
+applied to ML model comparison.
 
 Three patterns:
     1. paired_cv_test()    — paired t-test / Wilcoxon on per-fold CV scores

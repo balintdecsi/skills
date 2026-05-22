@@ -1,8 +1,9 @@
 """
 Per-fold threshold optimisation under an asymmetric business loss.
 
-Pattern adapted from Data-Analysis-3/Assignment-2 (CEU MSBA, Bisnode
-fast-growing-firms classifier with FN cost = 4 × FP cost).
+Pattern adapted from Békés–Kézdi ch17 firm-exit case study
+(https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch17-predicting-firm-exit).
+Fast-growing-firms / Bisnode classifier with asymmetric FN vs FP cost.
 
 Use when the default 0.5 classification threshold is wrong because the
 costs of FP and FN differ. Pick a threshold per CV fold, average across

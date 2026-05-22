@@ -1,6 +1,6 @@
 # Is the Difference Significant?
 
-When two models look close, **don't pick a winner from a single number**. The patterns below are inspired by the inferential discipline in `python-for-data-analysis` and `Data-Analysis-3`, applied to ML model comparison.
+When two models look close, **don't pick a winner from a single number**. The patterns below are inspired by the inferential discipline in [da_case_studies](https://github.com/gabors-data-analysis/da_case_studies), applied to ML model comparison.
 
 ---
 

@@ -1,7 +1,7 @@
 """
 Fair model comparison using a single CV scheme.
 
-Inspired by ceu-ml. Same splitter, same metric, same data — only the
+Inspired by https://github.com/divenyijanos/ceu-ml. Same splitter, same metric, same data — only the
 estimator changes. Results land in a single sorted table.
 """
 

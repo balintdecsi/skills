@@ -2,7 +2,7 @@
 Plot fitted line + confidence band + prediction band for a statsmodels OLS.
 
 Distinguishes the two intervals visually. Pattern from
-python-for-data-analysis/class-09-generalizing-regression-results.
+https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch09-hotels-europe-stability
 
 The single most common reporting mistake is to draw a confidence band and
 label it as a prediction interval (or vice versa). This helper makes both

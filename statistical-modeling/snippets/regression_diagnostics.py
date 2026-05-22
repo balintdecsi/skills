@@ -11,7 +11,7 @@ And prints:
     - Jarque–Bera normality test
     - Durbin–Watson autocorrelation statistic
 
-Inspired by patterns across python-for-data-analysis and ceu-coding-2.
+Inspired by patterns across https://github.com/gabors-data-analysis/da_case_studies and CEU Coding 2.
 """
 
 from __future__ import annotations

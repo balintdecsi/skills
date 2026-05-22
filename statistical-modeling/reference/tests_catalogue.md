@@ -1,6 +1,6 @@
 # Hypothesis Tests Catalogue (Python)
 
-One-line recipes for the tests that actually come up. Inspired by patterns across `python-for-data-analysis` and `Data-Analysis-3` (CEU MSBA).
+One-line recipes for the tests that actually come up. Inspired by patterns across [gabors-data-analysis/da_case_studies](https://github.com/gabors-data-analysis/da_case_studies) (Békés–Kézdi).
 
 For each test, **always report**: test name, statistic, p-value, sample size, and an effect-size measure or a CI. A bare p-value is not a result.
 

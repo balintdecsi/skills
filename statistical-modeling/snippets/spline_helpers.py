@@ -1,7 +1,7 @@
 """
 Linear spline helpers for use with statsmodels formulas.
 
-Source: python-for-data-analysis/class-09-generalizing-regression-results/utils.py
+Source: https://github.com/gabors-data-analysis/da_case_studies/blob/main/ch00-tech-prep/py_helper_functions.py
 (CEU MSBA, originally written for the Békés–Kézdi data analysis style).
 
 Use inside an `smf.ols` formula:

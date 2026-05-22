@@ -1,6 +1,6 @@
 # ML Modelling Workflow — Detailed Steps
 
-Inspired by patterns in `ceu-ml`, `Data-Analysis-3`, and `python-for-data-analysis`. These are suggestions, adapt to context.
+Inspired by patterns in [ceu-ml](https://github.com/divenyijanos/ceu-ml) and [da_case_studies](https://github.com/gabors-data-analysis/da_case_studies). These are suggestions, adapt to context.
 
 ---
 

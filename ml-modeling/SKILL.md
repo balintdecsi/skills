@@ -7,13 +7,13 @@ description: Best-practice suggestions for predictive ML modelling with scikit-l
 
 These are **suggestions**, not absolute rules — the user is an industry-experienced developer and prefers pragmatic patterns that resonated across several CEU MSBA course repos. Adapt freely to context.
 
-The patterns below are inspired by these repositories the user worked with:
+The patterns below are inspired by these course and open-source repositories:
 
-- **Primary inspiration (the user resonated most):**
-  - `ceu-ml` — *Data Science 3: Machine Learning Concepts and Tools* (CEU MSBA). The `ResultCollector` model-comparison pattern below comes straight from this course.
-  - `Data-Analysis-3` (`zarizachow/Data-Analysis-3`) — `StratifiedKFold` cross-validation + business-loss-function thresholding for classification.
-- **Lightly related (data/AI engineering context only):** `ceu-ai-engineering-class`, `de-3`, `ceu-modern-data-platforms`.
-- **More academic, but the user wants to get better at them — use idioms from these too:** `ceu-coding-2`, `python-for-data-analysis`, `da_data_repo` (Békés–Kézdi). For statistical modelling specifically (OLS, confidence intervals, significance), see the companion **`statistical-modeling`** skill.
+- **Primary inspiration:**
+  - [divenyijanos/ceu-ml](https://github.com/divenyijanos/ceu-ml) — *Data Science 3: Machine Learning Concepts and Tools* (CEU MSBA, János Divényi). The `ResultCollector` model-comparison pattern below comes straight from this course.
+  - [gabors-data-analysis/da_case_studies](https://github.com/gabors-data-analysis/da_case_studies) (Békés–Kézdi) — cross-validated prediction, classification, and business-loss thresholding (see [ch17-predicting-firm-exit](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch17-predicting-firm-exit), [ch13-used-cars-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch13-used-cars-reg)).
+- **Lightly related (data/AI engineering context only):** [zoltanctoth/ceu-ai-engineering-class](https://github.com/zoltanctoth/ceu-ai-engineering-class), [zoltanctoth/ceu-modern-data-platforms](https://github.com/zoltanctoth/ceu-modern-data-platforms).
+- **More academic — use idioms from these too:** [gabors-data-analysis/da_data_repo](https://github.com/gabors-data-analysis/da_data_repo) (Békés–Kézdi datasets). For statistical modelling specifically (OLS, confidence intervals, significance), see the companion **`statistical-modeling`** skill.
 
 ## When to Use
 
@@ -104,7 +104,7 @@ pipe.fit(X_train, y_train)
 
 ## Model Comparison: the `ResultCollector` Pattern
 
-Adapted from `ceu-ml/notebooks/class5_bike_share_demand.ipynb`. Drop into any modelling notebook to keep a running leaderboard. The full class lives at [snippets/result_collector.py](snippets/result_collector.py).
+Adapted from [class5_bike_share_demand.ipynb](https://github.com/divenyijanos/ceu-ml/blob/2026/notebooks/class5_bike_share_demand.ipynb). Drop into any modelling notebook to keep a running leaderboard. The full class lives at [snippets/result_collector.py](snippets/result_collector.py).
 
 ```python
 from snippets.result_collector import ResultCollector
@@ -124,7 +124,7 @@ A simple `print(pd.DataFrame(rows))` is often enough — don't over-engineer. Th
 | Situation | Use |
 |---|---|
 | iid regression / classification | `KFold(shuffle=True, random_state=42)` |
-| imbalanced classification | `StratifiedKFold(...)` (the `Data-Analysis-3` default) |
+| imbalanced classification | `StratifiedKFold(...)` (standard in [ch17 firm-exit case study](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch17-predicting-firm-exit)) |
 | grouped data (same user across rows) | `GroupKFold` |
 | time-series | `TimeSeriesSplit` — never shuffle time! |
 | nested model selection | inner CV for tuning, outer CV for honest score |
@@ -144,7 +144,7 @@ Always wire the search into the pipeline (`pipe__model__C`, `pipe__prep__num__sc
 
 ## Classification Thresholds & Business Loss
 
-Don't default to 0.5 if the costs are asymmetric. Pattern from `Data-Analysis-3/Assignment-2`:
+Don't default to 0.5 if the costs are asymmetric. Pattern from Békés–Kézdi [ch17 predicting firm exit](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch17-predicting-firm-exit):
 
 ```python
 # False negatives cost 4x false positives.
@@ -231,7 +231,7 @@ For project structure (`dev/models/` → `prod/models/` split), see the **`analy
 
 In [snippets/](snippets/):
 
-- `result_collector.py` — the leaderboard helper from `ceu-ml`.
+- `result_collector.py` — the leaderboard helper from [ceu-ml](https://github.com/divenyijanos/ceu-ml).
 - `pipeline_template.py` — full ColumnTransformer + Pipeline + GridSearchCV scaffold for a tabular problem.
 - `cv_compare_models.py` — fair `cross_val_score` comparison loop with mean ± std per model.
 - `threshold_optimization.py` — find the loss-minimising threshold per CV fold and average.
@@ -244,12 +244,12 @@ prototyping a new modelling pattern or wanting a reproducible benchmark:
 
 | Dataset | Task | Used in | URL |
 |---|---|---|---|
-| Kaggle Bike Sharing Demand | Regression (count target) — the `ceu-ml` flagship example | `ceu-ml/notebooks/class5_bike_share_demand.ipynb` | <https://www.kaggle.com/c/bike-sharing-demand> |
-| MNIST (`fetch_openml('mnist_784')`) | Multi-class image classification | `ceu-ml/notebooks/class3_clustering.ipynb`, `class6_deep_learning_intro.ipynb` | <https://www.openml.org/d/554> |
-| Synthetic 2D toys: `make_moons`, `make_circles` | Decision-boundary visualisation, clustering | `ceu-ml` deep-learning + clustering classes | `from sklearn.datasets import make_moons, make_circles` |
-| Hotels Europe (Vienna) — Békés–Kézdi | Regression on price; pipeline practice | `Data-Analysis-3/Assignment-2`, `python-for-data-analysis/class-09` | <https://osf.io/r6uqb/> (and <https://gabors-data-analysis.com/>) |
-| Used Cars — Békés–Kézdi | Regression with feature engineering | `da_data_repo/used-cars/`, `python-for-data-analysis/class-13` | <https://gabors-data-analysis.com/data-and-code/> |
-| Bisnode firm exits — Békés–Kézdi | Imbalanced binary classification with business loss — perfect for the threshold-optimization snippet | `Data-Analysis-3/Assignment-2`, `python-for-data-analysis/class-17` | <https://osf.io/3qyut/> |
+| Kaggle Bike Sharing Demand | Regression (count target) — the ceu-ml flagship example | [class5_bike_share_demand.ipynb](https://github.com/divenyijanos/ceu-ml/blob/2026/notebooks/class5_bike_share_demand.ipynb) | <https://www.kaggle.com/c/bike-sharing-demand> |
+| MNIST (`fetch_openml('mnist_784')`) | Multi-class image classification | [class3_clustering](https://github.com/divenyijanos/ceu-ml/blob/2026/notebooks/class3_clustering.ipynb), [class6_deep_learning_intro](https://github.com/divenyijanos/ceu-ml/blob/2026/notebooks/class6_deep_learning_intro.ipynb) | <https://www.openml.org/d/554> |
+| Synthetic 2D toys: `make_moons`, `make_circles` | Decision-boundary visualisation, clustering | [ceu-ml](https://github.com/divenyijanos/ceu-ml) deep-learning + clustering classes | `from sklearn.datasets import make_moons, make_circles` |
+| Hotels Europe (Vienna) — Békés–Kézdi | Regression on price; pipeline practice | [ch09-hotels-europe-stability](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch09-hotels-europe-stability), [ch03-hotels-europe-compare](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch03-hotels-europe-compare) | <https://osf.io/r6uqb/> (and <https://gabors-data-analysis.com/>) |
+| Used Cars — Békés–Kézdi | Regression with feature engineering | [da_data_repo/used-cars](https://github.com/gabors-data-analysis/da_data_repo/tree/main/used-cars), [ch13-used-cars-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch13-used-cars-reg) | <https://gabors-data-analysis.com/data-and-code/> |
+| Bisnode firm exits — Békés–Kézdi | Imbalanced binary classification with business loss — perfect for the threshold-optimization snippet | [ch17-predicting-firm-exit](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch17-predicting-firm-exit) | <https://osf.io/3qyut/> |
 
 Reusable scikit-learn / OpenML defaults for quick experiments without downloading anything:
 
@@ -265,18 +265,17 @@ For larger benchmark suites, see [OpenML CC18](https://www.openml.org/s/99) (72 
 or [Kaggle Datasets](https://www.kaggle.com/datasets) filtered by tabular + competition.
 
 When pulling data for a project, pin the **download URL, version/snapshot date, and licence**
-in a load-data cell — the `ceu-ml` notebooks consistently load straight from a versioned GitHub URL
-(e.g. `https://raw.githubusercontent.com/divenyijanos/ceu-ml/2025/data/bike_sharing_demand/train.csv`),
+in a load-data cell — the [ceu-ml](https://github.com/divenyijanos/ceu-ml) notebooks consistently load straight from a versioned GitHub URL
+(e.g. `https://raw.githubusercontent.com/divenyijanos/ceu-ml/2026/data/bike_sharing_demand/train.csv`),
 which is a clean pattern.
 
 ## Further Reference
 
 Inspiration repos (check these for full worked examples):
 
-- `ceu-ml` — model comparison, pipelines on bike-share, transfer learning, bias-variance.
-- `Data-Analysis-3` — cross-validated classifier walk-through with business-loss thresholding.
-- `python-for-data-analysis` — `class-13` to `class-17` cover the prediction framework, lasso + grid search, random forests + boosting, classification.
-- `da_data_repo` — tidy datasets from Békés–Kézdi (upstream: <https://github.com/gabors-data-analysis>).
+- [divenyijanos/ceu-ml](https://github.com/divenyijanos/ceu-ml) — model comparison, pipelines on bike-share, transfer learning, bias-variance.
+- [gabors-data-analysis/da_case_studies](https://github.com/gabors-data-analysis/da_case_studies) — cross-validated prediction and business-loss thresholding ([ch17](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch17-predicting-firm-exit)); used-cars and airbnb chapters for lasso, random forests, and boosting ([ch13](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch13-used-cars-reg), [ch15-used-cars-cart](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch15-used-cars-cart), [ch16-airbnb-random-forest](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch16-airbnb-random-forest)).
+- [gabors-data-analysis/da_data_repo](https://github.com/gabors-data-analysis/da_data_repo) — tidy datasets from Békés–Kézdi.
 - A clear production-oriented structure — e.g. `dev/prod` split and shared utility modules.
 
 Companion skills:
