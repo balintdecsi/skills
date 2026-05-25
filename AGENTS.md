@@ -51,6 +51,7 @@ This repository contains a software project. Before making changes, read the REA
 
 ## Documentation
 
+- Never write hard paths into docs as they might be public facing -- always use relative repo-scope paths.
 - Keep documentation aligned with code behavior, file names, commands, and data contracts.
 - Update README or reference docs when changing workflow order, public interfaces, configuration, or generated outputs.
 - Preserve historical notes unless the task is specifically to revise them.
