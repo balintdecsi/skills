@@ -4,6 +4,11 @@ ResultCollector — running leaderboard for model comparison.
 Adapted from https://github.com/divenyijanos/ceu-ml/blob/2026/notebooks/class5_bike_share_demand.ipynb
 (CEU MSBA "Data Science 3: Machine Learning Concepts and Tools").
 
+PROVENANCE: the upstream repository carries no licence file, so no rights are
+granted by default. Permission from the author (Janos Divenyi) is being sought and
+has not yet been obtained. See THIRD-PARTY-NOTICES.md at the repo root; if consent
+is declined, replace this class with an independent implementation.
+
 Drop into any modelling notebook to keep a styled, sortable leaderboard
 of train / test scores with automatic improvement-over-baseline.
 

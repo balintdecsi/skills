@@ -1,7 +1,7 @@
 """
 Stargazer side-by-side regression-table template.
 
-Pattern from https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch13-used-cars-reg
+Pattern from https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch13-used-cars-reg
 and CEU Coding 2 intro_to_regression.ipynb.
 
 Renders well in Jupyter (HTML) and to LaTeX via `.render_latex()`.

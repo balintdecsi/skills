@@ -1,8 +1,14 @@
 """
 Linear spline helpers for use with statsmodels formulas.
 
-Source: https://github.com/gabors-data-analysis/da_case_studies/blob/main/ch00-tech-prep/py_helper_functions.py
-(CEU MSBA, originally written for the Békés–Kézdi data analysis style).
+Derived from da_helper_functions.py in gabors-data-analysis/da_case_studies:
+https://github.com/gabors-data-analysis/da_case_studies/blob/master/ch00-tech-prep/da_helper_functions.py
+
+Upstream is MIT licensed; its notice is retained here as MIT requires:
+
+    MIT License
+    Copyright (c) 2021 Gabors Data Analysis
+    Full text: https://github.com/gabors-data-analysis/da_case_studies/blob/master/LICENSE
 
 Use inside an `smf.ols` formula:
 

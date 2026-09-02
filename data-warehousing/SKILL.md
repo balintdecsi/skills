@@ -197,9 +197,9 @@ Other good free sources for end-to-end warehouse practice:
 | NYC TLC trip data (Yellow / Green / FHV) | Big, partitioned by month, schema drifts over years — perfect bronze→silver work | <https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page> |
 | TPC-H sample (any size) | Canonical multi-table star-schema dataset for gold-layer modeling exercises | <https://www.tpc.org/tpch/> |
 | Kaggle "datasets" tag `data-cleaning` | Curated dirty datasets for ETL practice | <https://www.kaggle.com/datasets?tags=14201-Data+Cleaning> |
-| OpenFlights | Multi-table joins (airports, airlines, routes) — great Silver-layer dimensional modeling | <https://openflights.org/data.html> |
+| OpenFlights | Multi-table joins (airports, airlines, routes) — great Silver-layer dimensional modeling | <https://openflights.org/data> · [raw CSVs](https://github.com/jpatokal/openflights/tree/master/data) |
 | World Bank Open Data | Wide → long reshape, plus codebook joins for Silver | <https://data.worldbank.org/> |
-| dbt-labs `jaffle_shop` | Tiny demo ecommerce dataset used in dbt tutorials | <https://github.com/dbt-labs/jaffle_shop> |
+| dbt-labs `jaffle_shop` | Tiny demo ecommerce dataset used in dbt tutorials (now archived as `jaffle-shop-classic`) | <https://github.com/dbt-labs/jaffle-shop-classic> |
 
 For new projects, default to: **CSV/Parquet into Bronze**, **Parquet into Silver/Gold**.
 Document source URL, download date, and licence next to the load.

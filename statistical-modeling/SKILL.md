@@ -9,10 +9,10 @@ These are **suggestions**, not absolute rules. The user is industry-experienced 
 
 The patterns are inspired by Békés–Kézdi (*Data Analysis for Business, Economics, and Policy*) and CEU coursework:
 
-- [gabors-data-analysis/da_case_studies](https://github.com/gabors-data-analysis/da_case_studies) — chapter notebooks for OLS, splines, multiple regression, and prediction ([ch07](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch07-hotels-simple-reg)–[ch10](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch10-hotels-multiple-reg), [ch09-hotels-europe-stability](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch09-hotels-europe-stability), [ch13-used-cars-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch13-used-cars-reg)). Heavy use of `statsmodels` + `stargazer`.
-- [gabors-data-analysis/da_data_repo](https://github.com/gabors-data-analysis/da_data_repo) — companion datasets for the textbook.
+- [gabors-data-analysis/da_case_studies](https://github.com/gabors-data-analysis/da_case_studies) — chapter notebooks for OLS, splines, multiple regression, and prediction ([ch07](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch07-hotels-simple-reg)–[ch10](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch10-hotels-multiple-reg), [ch09-hotels-europe-stability](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch09-hotels-europe-stability), [ch13-used-cars-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch13-used-cars-reg)). Heavy use of `statsmodels` + `stargazer`.
+- [da_data_repo on OSF](https://osf.io/3u5em/) — companion datasets for the textbook.
 - CEU Coding 2 — `intro_to_regression.ipynb` (`smf.ols`, robust SE, `stargazer` side-by-side tables, linear splines); private coursework.
-- [ch17-predicting-firm-exit](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch17-predicting-firm-exit) for the link to predictive evaluation under business loss.
+- [ch17-predicting-firm-exit](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch17-predicting-firm-exit) for the link to predictive evaluation under business loss.
 
 This skill is the **inferential / explanatory counterpart** to the `ml-modeling` skill. Use this when the question is *"how big is the effect, and are we sure?"*. Use `ml-modeling` when the question is *"how accurately can we predict?"*. They overlap on significance testing of model differences — see [reference/inference_vs_prediction.md](reference/inference_vs_prediction.md).
 
@@ -78,11 +78,11 @@ Common specification choices:
 | Level-log | `y ~ np.log(x)` (interpret coef as change in y per 1% change in x ≈ coef/100) |
 | Log-log (elasticity) | `np.log(y) ~ np.log(x)` (coef = elasticity directly) |
 | Polynomial | `y ~ x + I(x**2) + I(x**3)` |
-| Linear spline | `y ~ lspline(x, [knot1, knot2])` (helper from [da_case_studies ch00](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch00-tech-prep)) |
+| Linear spline | `y ~ lspline(x, [knot1, knot2])` (helper from [da_case_studies ch00](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch00-tech-prep)) |
 | Categorical | `y ~ C(category)` |
 | Interaction | `y ~ x * z` (includes `x`, `z`, `x:z`) |
 
-The `lspline` / `knot_ceil` helpers live in [snippets/spline_helpers.py](snippets/spline_helpers.py), adapted from [py_helper_functions.py](https://github.com/gabors-data-analysis/da_case_studies/blob/main/ch00-tech-prep/py_helper_functions.py).
+The `lspline` / `knot_ceil` helpers live in [snippets/spline_helpers.py](snippets/spline_helpers.py), adapted from [da_helper_functions.py](https://github.com/gabors-data-analysis/da_case_studies/blob/master/ch00-tech-prep/da_helper_functions.py).
 
 ## Logistic Regression (when the dependent is binary)
 
@@ -101,7 +101,7 @@ For pure prediction with logistic regression at scale, switch to `sklearn.linear
 
 ## Side-by-side Tables with Stargazer
 
-The pattern from [ch13-used-cars-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch13-used-cars-reg):
+The pattern from [ch13-used-cars-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch13-used-cars-reg):
 
 ```python
 from stargazer.stargazer import Stargazer
@@ -121,7 +121,7 @@ A worked template lives in [snippets/stargazer_table.py](snippets/stargazer_tabl
 
 ## Confidence vs Prediction Intervals
 
-This trip-up is the single most common one. From [ch09-hotels-europe-stability](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch09-hotels-europe-stability):
+This trip-up is the single most common one. From [ch09-hotels-europe-stability](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch09-hotels-europe-stability):
 
 - **Confidence interval (CI):** uncertainty around the *fitted value* (i.e. `E[Y | X = x]`). Narrow.
 - **Prediction interval (PI):** uncertainty around a *single new observation* — adds the residual variance on top. Wider.
@@ -197,14 +197,14 @@ Standardise column names early (`df.columns = df.columns.str.replace('-', '_').s
 
 In [snippets/](snippets/):
 
-- `spline_helpers.py` — `knot_ceil` and `lspline` from [py_helper_functions.py](https://github.com/gabors-data-analysis/da_case_studies/blob/main/ch00-tech-prep/py_helper_functions.py) for use inside `smf.ols("y ~ lspline(x, [...])", ...)`.
+- `spline_helpers.py` — `knot_ceil` and `lspline` from [da_helper_functions.py](https://github.com/gabors-data-analysis/da_case_studies/blob/master/ch00-tech-prep/da_helper_functions.py) for use inside `smf.ols("y ~ lspline(x, [...])", ...)`.
 - `stargazer_table.py` — full stargazer table template with renamed covariates, custom rows, BIC/AIC footer.
 - `intervals_plot.py` — fitted line + confidence band + prediction band for OLS, properly labeled.
 - `regression_diagnostics.py` — residual plots, heteroscedasticity tests, influence diagnostics in one call.
 
 ## Data Sources Used in the Inspiration Courses
 
-Almost all worked examples across [da_case_studies](https://github.com/gabors-data-analysis/da_case_studies), [da_data_repo](https://github.com/gabors-data-analysis/da_data_repo), and CEU Coding 2
+Almost all worked examples across [da_case_studies](https://github.com/gabors-data-analysis/da_case_studies), [da_data_repo on OSF](https://osf.io/3u5em/), and CEU Coding 2
 `da_data_repo`, and `da_case_studies` come from **Békés & Kézdi, *Data Analysis for Business,
 Economics, and Policy*** (Cambridge, 2021). The companion data is openly available and is the
 single best collection of cleanly-documented small/medium datasets for inferential modeling practice:
@@ -212,7 +212,7 @@ single best collection of cleanly-documented small/medium datasets for inferenti
 | Resource | What | URL |
 |---|---|---|
 | Book site (datasets, code in R/Python/Stata, case studies) | Hub for everything | <https://gabors-data-analysis.com/> |
-| `da_data_repo` (raw + clean datasets) | Download via OSF or GitHub | <https://osf.io/7epdj/> · <https://github.com/gabors-data-analysis/da_data_repo> |
+| `da_data_repo` (clean datasets; no raw data) | Hosted on OSF — the GitHub mirror is gone | <https://osf.io/3u5em/> · parent project <https://osf.io/7epdj/> |
 | `da_case_studies` (chapter notebooks) | End-to-end workflows per chapter | <https://github.com/gabors-data-analysis/da_case_studies> |
 
 Specific datasets you'll keep returning to (all small, all interpretable):
@@ -241,16 +241,19 @@ When loading from OSF, the canonical pattern from the `da_*` repos works directl
 
 ```python
 import pandas as pd
-hotels = pd.read_csv("https://osf.io/r6uqb/download")  # hotels-europe price snapshot
+# Each OSF *file* has its own short id; the project id alone is not downloadable.
+prices   = pd.read_csv("https://osf.io/download/p6tyr/")  # hotels-europe_price.csv
+features = pd.read_csv("https://osf.io/download/utwjs/")  # hotels-europe_features.csv
+hotels   = prices.merge(features, on="hotel_id")
 ```
 
 ## Further Reference
 
 Inspiration repos (check these for full worked examples):
 
-- [gabors-data-analysis/da_case_studies](https://github.com/gabors-data-analysis/da_case_studies) — most relevant chapters: [ch07-hotels-simple-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch07-hotels-simple-reg), [ch08-hotels-nonlinear](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch08-hotels-nonlinear), [ch09-hotels-europe-stability](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch09-hotels-europe-stability), [ch10-hotels-multiple-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch10-hotels-multiple-reg), [ch11-smoking-health-risk](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch11-smoking-health-risk), [ch13-used-cars-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch13-used-cars-reg), [ch17-predicting-firm-exit](https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch17-predicting-firm-exit).
+- [gabors-data-analysis/da_case_studies](https://github.com/gabors-data-analysis/da_case_studies) — most relevant chapters: [ch07-hotels-simple-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch07-hotels-simple-reg), [ch08-hotels-nonlinear](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch08-hotels-nonlinear), [ch09-hotels-europe-stability](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch09-hotels-europe-stability), [ch10-hotels-multiple-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch10-hotels-multiple-reg), [ch11-smoking-health-risk](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch11-smoking-health-risk), [ch13-used-cars-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch13-used-cars-reg), [ch17-predicting-firm-exit](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch17-predicting-firm-exit).
 - CEU Coding 2 — gentle intro with `smf.ols`, robust SE, log-log, splines, stargazer; private coursework.
-- [gabors-data-analysis/da_data_repo](https://github.com/gabors-data-analysis/da_data_repo) — companion datasets for the Békés–Kézdi book.
+- [da_data_repo on OSF](https://osf.io/3u5em/) — companion datasets for the Békés–Kézdi book.
 
 Companion skills:
 

@@ -2,7 +2,7 @@
 Per-fold threshold optimisation under an asymmetric business loss.
 
 Pattern adapted from Békés–Kézdi ch17 firm-exit case study
-(https://github.com/gabors-data-analysis/da_case_studies/tree/main/ch17-predicting-firm-exit).
+(https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch17-predicting-firm-exit).
 Fast-growing-firms / Bisnode classifier with asymmetric FN vs FP cost.
 
 Use when the default 0.5 classification threshold is wrong because the

@@ -5,7 +5,7 @@ description: Suggestions for scoping and writing an Analytics Project Brief — 
 
 # Designing Analytics Projects — the Brief
 
-These are **suggestions** based on the user's CEU MSBA course **Designing Analytics Projects** (`ECBS5228A`), taught by Eduardo Arino de la Rubia (ex-Meta, ex-Domino). Source: <https://github.com/earino/designing-analytics-projects>.
+These are **suggestions** based on the user's CEU MSBA course **Designing Analytics Projects** (`ECBS5228A`), taught by Eduardo Arino de la Rubia (ex-Meta, ex-Domino). Source: <https://github.com/earino/designing-analytics-projects>, licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Material derived from it here is used under that licence with attribution; this does not imply endorsement by the author.
 
 The course centres on **one artifact: the Analytics Project Brief**. Everything in this skill exists to help write one well.
 
@@ -133,7 +133,7 @@ Match the business question to an analysis type, then mirror that example brief.
 | Why do users upgrade / pay more? | Expansion & Monetisation | Free-user churn from over-monetisation |
 | Do products help or cannibalise each other? | Ecosystem | Selection bias on multi-product users |
 
-Source: [cheatsheet.md](https://github.com/earino/designing-analytics-projects/blob/main/cheatsheet.md) in the course repo (the one-A4 exam cheat sheet — concentrated wisdom).
+Source: the nine example briefs in [`templates/examples/`](https://github.com/earino/designing-analytics-projects/tree/main/templates/examples) in the course repo — one per analysis type, in the same order as the rows above.
 
 ## Suggested Workflow When Drafting from a Scenario
 
@@ -165,7 +165,7 @@ The brief defines *what* you're building and *why*. The setup skill handles *how
 - **Course repo (the source of truth):** <https://github.com/earino/designing-analytics-projects>
   - [templates/analytics_project_brief.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/analytics_project_brief.md) — blank template (also at `snippets/brief_template.md` in this skill).
   - [templates/examples/](https://github.com/earino/designing-analytics-projects/tree/main/templates/examples) — 9 worked briefs, one per foundational analysis.
-  - [cheatsheet.md](https://github.com/earino/designing-analytics-projects/blob/main/cheatsheet.md) — the one-A4 distillation; the densest reference in the repo.
+  - [`templates/examples/`](https://github.com/earino/designing-analytics-projects/tree/main/templates/examples) — nine worked example briefs, one per analysis type; the densest reference in the repo.
   - [scenarios/](https://github.com/earino/designing-analytics-projects/tree/main/scenarios) — 18 practice scenarios.
   - [syllabus.md](https://github.com/earino/designing-analytics-projects/blob/main/syllabus.md) — full course structure, rubric, and reading list.
 - *Designing Experimentation Guardrails*, Airbnb Engineering — the canonical counter-metrics reference.
