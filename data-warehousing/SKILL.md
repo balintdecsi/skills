@@ -9,7 +9,7 @@ These best practices are based on my (the user's) university masters course **EC
 
 The guidance is **tool-agnostic**. The user is not always using DuckDB — apply the same patterns whether the warehouse is DuckDB, Snowflake, BigQuery, Redshift, Postgres, Databricks/Spark, ClickHouse, or a dbt project on top of any of them.
 
-**Upstream source for further reference:** <https://github.com/earino/ECBS5294> (course repository the user inspired this skill from — check it for full notebooks, slides and worked examples).
+**Upstream source for further reference:** <https://github.com/earino/ECBS5294> (course repository the user inspired this skill from — check it for full notebooks, slides and worked examples). The course materials are licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the datasets under its `data/` folder are excluded and keep their own licences, some NonCommercial/ShareAlike. Credited as attribution; this does not imply endorsement by the author.
 
 ## When to Use
 

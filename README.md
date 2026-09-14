@@ -46,14 +46,14 @@ Many skills distill patterns from CEU MSBA coursework, open course repositories,
 
 | Skill | Course / source | Instructor / author | Repository | Upstream licence |
 |---|---|---|---|---|
-| **data-warehousing** | ECBS5294 — Introduction to Data Science: Working with Data | Eduardo Ariño de la Rubia | [earino/ECBS5294](https://github.com/earino/ECBS5294) | None declared |
+| **data-warehousing** | ECBS5294 — Introduction to Data Science: Working with Data | Eduardo Ariño de la Rubia | [earino/ECBS5294](https://github.com/earino/ECBS5294) | CC BY 4.0 (course materials; `data/` excluded) |
 | **designing-analytics-projects** | ECBS5228A — Designing Analytics Projects | Eduardo Arino de la Rubia | [earino/designing-analytics-projects](https://github.com/earino/designing-analytics-projects) | CC BY 4.0 |
-| **ml-modeling** | ECBS5233 — Data Science 3: Machine Learning Concepts and Tools | János Divényi | [divenyijanos/ceu-ml](https://github.com/divenyijanos/ceu-ml) | None declared |
+| **ml-modeling** | ECBS5233 — Data Science 3: Machine Learning Concepts and Tools | János Divényi | [divenyijanos/ceu-ml](https://github.com/divenyijanos/ceu-ml) | None declared — used with the author's permission |
 | **ml-modeling**, **statistical-modeling** | *Data Analysis for Business, Economics, and Policy* (case studies, datasets) | Gábor Békés, Gábor Kézdi | [gabors-data-analysis/da_case_studies](https://github.com/gabors-data-analysis/da_case_studies), [da_data_repo on OSF](https://osf.io/3u5em/) | MIT (case studies) |
 | **ml-modeling** | AI Engineering, Modern Data Platforms (light context) | Zoltán C. Tóth | [zoltanctoth/ceu-ai-engineering-class](https://github.com/zoltanctoth/ceu-ai-engineering-class), [zoltanctoth/ceu-modern-data-platforms](https://github.com/zoltanctoth/ceu-modern-data-platforms) | CC BY-NC 4.0 / BSD-3 |
 | **statistical-modeling** | Coding 2 — MS in Business Analytics (regression intro) | CEU Coding 2 course | *(private coursework)* | — |
 | **time-series-forecasting** | Time Series Forecasting (CEU) | Francesca Conselvan | [francescaconselvan/time_series_forecasting](https://github.com/francescaconselvan/time_series_forecasting) | None declared |
-| **geospatial-ds** | Geospatial Data Science (CEU MSBA) | Milán Janosov | *(course notebooks shared privately; not redistributed)* — [janosov.com](https://janosov.com) | — |
+| **geospatial-ds** | Geospatial Data Science (CEU MSBA) | Milán Janosov | *(course notebooks shared privately; not redistributed)* — [The New Science of Maps](https://www.thenewscienceofmaps.com/) | — (attribution approved by the instructor) |
 | **analytics-project-setup** | Industry project structure | — | [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/), [ageron/handson-ml3](https://github.com/ageron/handson-ml3) | MIT / Apache-2.0 |
 
 When a skill cites a file path (e.g. `notebooks/class5_bike_share_demand.ipynb`), it refers to that path inside the repository listed above unless another URL is given explicitly.

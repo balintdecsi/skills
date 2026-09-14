@@ -10,7 +10,7 @@ These are **suggestions**, not absolute rules — the user is an industry-experi
 The patterns below are inspired by these course and open-source repositories:
 
 - **Primary inspiration:**
-  - [divenyijanos/ceu-ml](https://github.com/divenyijanos/ceu-ml) — *Data Science 3: Machine Learning Concepts and Tools* (CEU MSBA, János Divényi). The `ResultCollector` model-comparison pattern below comes straight from this course.
+  - [divenyijanos/ceu-ml](https://github.com/divenyijanos/ceu-ml) — *Data Science 3: Machine Learning Concepts and Tools* (CEU MSBA, János Divényi). The `ResultCollector` model-comparison pattern below comes straight from this course and is published here with his permission.
   - [gabors-data-analysis/da_case_studies](https://github.com/gabors-data-analysis/da_case_studies) (Békés–Kézdi) — cross-validated prediction, classification, and business-loss thresholding (see [ch17-predicting-firm-exit](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch17-predicting-firm-exit), [ch13-used-cars-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch13-used-cars-reg)).
 - **Lightly related (data/AI engineering context only):** [zoltanctoth/ceu-ai-engineering-class](https://github.com/zoltanctoth/ceu-ai-engineering-class), [zoltanctoth/ceu-modern-data-platforms](https://github.com/zoltanctoth/ceu-modern-data-platforms).
 - **More academic — use idioms from these too:** [da_data_repo on OSF](https://osf.io/3u5em/) (Békés–Kézdi datasets). For statistical modelling specifically (OLS, confidence intervals, significance), see the companion **`statistical-modeling`** skill.

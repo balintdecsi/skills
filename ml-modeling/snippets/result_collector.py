@@ -5,9 +5,9 @@ Adapted from https://github.com/divenyijanos/ceu-ml/blob/2026/notebooks/class5_b
 (CEU MSBA "Data Science 3: Machine Learning Concepts and Tools").
 
 PROVENANCE: the upstream repository carries no licence file, so no rights are
-granted by default. Permission from the author (Janos Divenyi) is being sought and
-has not yet been obtained. See THIRD-PARTY-NOTICES.md at the repo root; if consent
-is declined, replace this class with an independent implementation.
+granted by default. The author (Janos Divenyi) granted permission by email in
+September 2026 to publish this adaptation here. See THIRD-PARTY-NOTICES.md at the
+repo root.
 
 Drop into any modelling notebook to keep a styled, sortable leaderboard
 of train / test scores with automatic improvement-over-baseline.

@@ -8,7 +8,7 @@ description: Best-practice suggestions for geospatial data science in Python —
 These are **suggestions**, not absolute rules — pragmatic patterns for geospatial work in Python. Adapt freely to context.
 
 The approach here was shaped by the CEU MSBA geospatial data science course taught by
-[Milán Janosov](https://janosov.com) ([CEU profile](https://people.ceu.edu/node/2831)) — in
+[Milán Janosov](https://www.thenewscienceofmaps.com/) ([CEU profile](https://people.ceu.edu/node/2831)) — in
 particular the vector → raster → OSM progression, projecting before measuring, and H3 for
 hex aggregation. The course notebooks were shared privately with enrolled students and are
 **not** redistributed here; all text and code in this skill are written from scratch.

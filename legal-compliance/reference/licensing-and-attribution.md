@@ -75,6 +75,18 @@ independent implementation.
 """
 ```
 
+Once the answer is yes, replace the provenance line with who granted it, how, and when — and
+keep the email, because it is now your licence:
+
+```python
+PROVENANCE: the upstream repository carries no licence file. The author (<name>) granted
+permission by email (<month year>) to publish this adaptation here.
+```
+
+If the author later adds a licence file to the repo, cite the licence instead — a public
+licence is easier for others to verify than your inbox. Check its scope: course repos often
+licence the teaching material but carve out redistributed datasets.
+
 **Never write "used by permission" before the reply arrives.** Intending to ask, having asked,
 and having been told yes are three different states, and only the third one licenses anything.
 Mirror whichever is true in both the file header and the notices index, and update both when
