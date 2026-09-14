@@ -33,6 +33,7 @@ npx skills add
 | [find-skills](find-skills/) | Discover and install skills from the ecosystem |
 | [geospatial-ds](geospatial-ds/) | GeoPandas, rasters, OSM, H3, spatial statistics |
 | [gh-cli](gh-cli/) | Authenticated GitHub CLI workflows |
+| [legal-compliance](legal-compliance/) | GDPR, cookies, EU AI Act, and open-source licence compliance |
 | [ml-modeling](ml-modeling/) | scikit-learn pipelines, CV, model comparison |
 | [notion-cli](notion-cli/) | Notion API and workers via the `ntn` CLI |
 | [statistical-modeling](statistical-modeling/) | OLS / logistic regression, intervals, stargazer |

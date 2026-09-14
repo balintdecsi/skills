@@ -474,6 +474,8 @@ When asked to set up a new analytics project:
 - `data-warehousing` skill — for bronze/silver/gold data pipeline patterns.
 - `designing-analytics-projects` skill — for the pre-code Analytics Project Brief.
 - `uv` skill — for modern Python environment management.
+- `legal-compliance` skill — for `LICENSE` / `THIRD-PARTY-NOTICES.md` at scaffold time, and for
+  GDPR obligations when the project stores data about identifiable people.
 
 ---
 
