@@ -33,6 +33,10 @@ credited as a matter of courtesy and scholarly practice, not licence obligation.
 | [StatsReporting/stargazer](https://github.com/StatsReporting/stargazer) | GPL-2.0-or-later | `statistical-modeling` — the library is *imported* by example code, never copied, so its copyleft does not extend to this repository |
 | [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/) | MIT | `analytics-project-setup` |
 | CEU MSBA Geospatial Data Science course — Milán Janosov ([The New Science of Maps](https://www.thenewscienceofmaps.com/)) | Course notebooks shared privately with enrolled students; **not redistributed here** | `geospatial-ds` — teaching approach only. Verified against the course notebooks: no prose overlap, and the only matching code lines are bare imports and single standard library calls. The instructor reviewed and approved this attribution by email (September 2026). |
+| CEU MSBA Entrepreneurship and Innovation course (2026) — Andrea Kozma | Course slides shared privately with enrolled students; **not redistributed here** | `product-discovery` — session structure and exercise formats only; all text written from scratch. Instructor review of the attribution not yet requested. |
+| Steve Blank, "Why the Lean Start-Up Changes Everything", *Harvard Business Review* (May 2013) | © Harvard Business Publishing; individual research use only | `product-discovery` — cited; no text reproduced |
+| [OpenStax *Entrepreneurship*](https://openstax.org/books/entrepreneurship/pages/1-3-the-entrepreneurial-mindset) | CC BY 4.0 | `product-discovery` — cited |
+| [Global Entrepreneurship Monitor 2025/2026 Global Report](https://www.gemconsortium.org) | © GEM; free to download | `product-discovery` — indicator definitions (TEA, NECI, 13 EFCs) summarised as facts |
 
 ## Vendored licence
 

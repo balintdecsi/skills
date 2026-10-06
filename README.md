@@ -36,6 +36,7 @@ npx skills add
 | [legal-compliance](legal-compliance/) | GDPR, cookies, EU AI Act, and open-source licence compliance |
 | [ml-modeling](ml-modeling/) | scikit-learn pipelines, CV, model comparison |
 | [notion-cli](notion-cli/) | Notion API and workers via the `ntn` CLI |
+| [product-discovery](product-discovery/) | Ideation, customer interviews, MVP tests, market sizing, pricing for revenue products |
 | [statistical-modeling](statistical-modeling/) | OLS / logistic regression, intervals, stargazer |
 | [time-series-forecasting](time-series-forecasting/) | Temporal splits, ARIMA, AutoGluon, backtesting |
 | [uv](uv/) | Python environments and dependency management with uv |
@@ -54,6 +55,7 @@ Many skills distill patterns from CEU MSBA coursework, open course repositories,
 | **statistical-modeling** | Coding 2 — MS in Business Analytics (regression intro) | CEU Coding 2 course | *(private coursework)* | — |
 | **time-series-forecasting** | Time Series Forecasting (CEU) | Francesca Conselvan | [francescaconselvan/time_series_forecasting](https://github.com/francescaconselvan/time_series_forecasting) | None declared |
 | **geospatial-ds** | Geospatial Data Science (CEU MSBA) | Milán Janosov | *(course notebooks shared privately; not redistributed)* — [The New Science of Maps](https://www.thenewscienceofmaps.com/) | — (attribution approved by the instructor) |
+| **product-discovery** | Entrepreneurship and Innovation (CEU MSBA, 2026) | Andrea Kozma | *(course slides shared privately; not redistributed)* — plus published frameworks (Ries, Blank, Sarasvathy, Aulet, Christensen, Fitzpatrick) | — (ideas and structure only; no copied expression) |
 | **analytics-project-setup** | Industry project structure | — | [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/), [ageron/handson-ml3](https://github.com/ageron/handson-ml3) | MIT / Apache-2.0 |
 
 When a skill cites a file path (e.g. `notebooks/class5_bike_share_demand.ipynb`), it refers to that path inside the repository listed above unless another URL is given explicitly.
