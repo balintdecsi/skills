@@ -23,6 +23,19 @@ syntax or relying on memorized knowledge:
   content.
 - `ntn <command> --help` — help for any command or subcommand.
 
+## Always sync before and after every edit
+
+Notion lives in the cloud: there's no local copy and no `sync` command. Syncing
+here means fetching fresh state right before writing and reading it back right
+after:
+
+1. **Before:** `ntn pages get <page-id>` immediately before the edit, and build
+   the change on that output. Never edit from Markdown fetched earlier in the
+   session. Someone may have edited the page since.
+2. **Edit:** `ntn pages edit <page-id> < page.md` (see below).
+3. **After:** `ntn pages get <page-id>` again and confirm the change landed and
+   nothing else changed.
+
 ## Install
 
 ```bash
@@ -31,7 +44,8 @@ curl -fsSL https://ntn.dev | bash
 
 ## Authentication
 
-- The CLI automatically uses `NOTION_API_TOKEN` when it is set.
+- The CLI automatically uses `NOTION_API_TOKEN` when it is set. `ntn pages`
+  currently requires it.
 - Check `NOTION_API_TOKEN` first. If it is already set, prefer using it instead
   of telling the user to run `ntn login`.
 - `ntn login` / `ntn logout` — log the CLI in or out (only use if not using
@@ -58,8 +72,14 @@ with `-X METHOD`.
 
 ### Markdown for pages and comments
 
-Prefer `ntn pages create` / `ntn pages update` for Markdown page content. Use
+Prefer `ntn pages create` / `ntn pages edit` for Markdown page content. Use
 the `markdown` field when creating or updating comments via `ntn api`.
+
+`ntn pages edit` **replaces the whole page content**. Start from fresh
+`ntn pages get` output: it prints properties as frontmatter, and `edit` strips
+that back off. Change only what was asked, and feed the file back in. Pass
+`--allow-deleting-content` only when the user has agreed to removing child
+pages or databases.
 
 ```bash
 # Comment with markdown
