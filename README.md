@@ -35,6 +35,7 @@ npx skills add
 | [gh-cli](gh-cli/) | Authenticated GitHub CLI workflows |
 | [joplin-cli](joplin-cli/) | Read and edit Joplin notes via the `joplin` CLI with safe cloud sync |
 | [legal-compliance](legal-compliance/) | GDPR, cookies, EU AI Act, and open-source licence compliance |
+| [maritime-cli](maritime-cli/) | Deploy and operate hosted agents with the `maritime` CLI |
 | [ml-modeling](ml-modeling/) | scikit-learn pipelines, CV, model comparison |
 | [notion-cli](notion-cli/) | Notion API and workers via the `ntn` CLI |
 | [product-discovery](product-discovery/) | Ideation, customer interviews, MVP tests, market sizing, pricing for revenue products |
