@@ -1,11 +1,11 @@
 ---
 name: designing-analytics-projects
-description: Suggestions for scoping and writing an Analytics Project Brief — the one-page artifact that defines problem, metrics, counter-metrics, stakeholders, methodology, success criteria, and pre-mortem before any analysis begins. Use when the task is to draft, review, or critique a project brief, scope an analytics project, define KPIs, identify counter-metrics or blockers, or prepare a stakeholder map. Not for technical implementation — see ml-modeling, statistical-modeling, or data-warehousing for that.
+description: Suggestions for drafting, reviewing, or critiquing an Analytics Project Brief — the pre-code artifact that defines the decision, metrics, counter-metrics, stakeholders, methodology, scope, success criteria, risks, and pre-mortem. Use to scope an analytics project, define SQL-precise KPIs, identify counter-metrics or blockers, map stakeholders, or frame a formal CAC/LTV analysis. For a commercial product, run product-discovery first and use this skill when a scoped analysis is required; use analytics-project-setup only after the brief is approved. Not for technical model or pipeline implementation.
 ---
 
 # Designing Analytics Projects — the Brief
 
-These are **suggestions** based on the user's CEU MSBA course **Designing Analytics Projects** (`ECBS5228A`), taught by Eduardo Arino de la Rubia (ex-Meta, ex-Domino). Source: <https://github.com/earino/designing-analytics-projects>, licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Material derived from it here is used under that licence with attribution; this does not imply endorsement by the author.
+These are **suggestions** based on the user's CEU MSBA course **Designing Analytics Projects** (`ECBS5228A`), taught by Eduardo Ariño de la Rubia (ex-Meta, ex-Domino). Source: <https://github.com/earino/designing-analytics-projects>, licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Material derived from it here is used under that licence with attribution; this does not imply endorsement by the author.
 
 The course centres on **one artifact: the Analytics Project Brief**. Everything in this skill exists to help write one well.
 
@@ -15,7 +15,11 @@ A brief is only as good as its grounding in the scenario.
 
 > **If the scenario, scoping notes, stakeholder list, data dictionary, prior analysis, or any other local file mentions a number, name, metric, system, or business rule — use it verbatim. Do not invent.**
 
-When information is missing, **say so explicitly** ("not specified in scenario; recommend confirming with X") rather than fabricating a baseline, headcount, KPI, or stakeholder name. Made-up specificity is the single most common failure mode for AI-drafted briefs — it looks professional and is wrong, which is worse than vague.
+When required information is missing, **ask the user** rather than assuming it.
+If the user cannot provide it and still wants a draft, mark the gap explicitly
+(`not specified; confirm with X`) instead of fabricating a baseline, headcount,
+KPI, or stakeholder name. Made-up specificity is the single most common failure
+mode for AI-drafted briefs — it looks professional and is wrong.
 
 If the user gives a scenario file, **read it first and extract**:
 
@@ -26,15 +30,6 @@ If the user gives a scenario file, **read it first and extract**:
 - The exact ask (what was requested vs what's actually needed)
 
 Quote those facts directly in the brief instead of paraphrasing into something more generic.
-
-## When to Use
-
-- "Draft / review / critique an Analytics Project Brief" or "project brief" or "scoping doc."
-- A scenario file is present and the deliverable is a written brief.
-- The user is preparing to talk to stakeholders, kicking off a new analysis, or sanity-checking scope.
-- Any mention of: counter-metrics, guardrails vs tradeoffs, Goodhart's Law, pre-mortem, Power-Interest Grid, stakeholder map, decision criteria, "what breaks if we succeed."
-
-Do **not** auto-trigger for purely technical tasks (training a model, writing SQL, building a pipeline). The brief is the *pre-code* artifact. Once the brief is approved and you're ready to set up the actual repository, switch to the **`analytics-project-setup`** skill.
 
 ## The 10 Sections (one-line each)
 
@@ -164,8 +159,7 @@ The brief defines *what* you're building and *why*. The setup skill handles *how
 
 - **Course repo (the source of truth):** <https://github.com/earino/designing-analytics-projects>
   - [templates/analytics_project_brief.md](https://github.com/earino/designing-analytics-projects/blob/main/templates/analytics_project_brief.md) — blank template (also at `snippets/brief_template.md` in this skill).
-  - [templates/examples/](https://github.com/earino/designing-analytics-projects/tree/main/templates/examples) — 9 worked briefs, one per foundational analysis.
-  - [`templates/examples/`](https://github.com/earino/designing-analytics-projects/tree/main/templates/examples) — nine worked example briefs, one per analysis type; the densest reference in the repo.
+  - [templates/examples/](https://github.com/earino/designing-analytics-projects/tree/main/templates/examples) — nine worked briefs, one per foundational analysis; the densest reference in the repo.
   - [scenarios/](https://github.com/earino/designing-analytics-projects/tree/main/scenarios) — 18 practice scenarios.
   - [syllabus.md](https://github.com/earino/designing-analytics-projects/blob/main/syllabus.md) — full course structure, rubric, and reading list.
 - *Designing Experimentation Guardrails*, Airbnb Engineering — the canonical counter-metrics reference.

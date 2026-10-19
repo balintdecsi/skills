@@ -16,6 +16,9 @@ message or trigger. Hosting is a flat plan; asleep machines are the cheap
 state. The npm package is `maritime-cli` (Node 20.12+); the command is
 `maritime`.
 
+Get user permission before installing or upgrading the CLI. Use the verified
+npm package and confirm the installed version before authentication.
+
 Drive it as a program. The installed CLI is the contract. Pages such as
 https://maritime.sh/docs/cli/llms.txt and https://maritime.sh/SKILL.md are a
 map, and that map can be ahead of the package on disk.
@@ -78,8 +81,8 @@ Stop at the first path that works:
 1. `maritime whoami --json`. Exit `2` means the token is missing, expired, or wrong. A `method` of `jwt` expires at `expiresAt`. An `mk_` key does not expire.
 2. No browser (sandbox, SSH, coding agent): `maritime login --device --json`. One JSON line on stderr carries `user_code` and `verification_uri_complete`. Show both to the user and wait for approval (about 15 minutes).
 3. A browser on this machine: `maritime login`.
-4. No account, and the user is here: `maritime signup -e <email> -p <password> -n <name> --json`. Ask for the email and password. Signup stores a token and returns `emailVerified: false`.
-5. No account, and the task should continue: use `create --claim-later` only when the manifest lists that flag. It runs one agent on a temporary account for 72 hours and returns a claim URL. A template agent on that path needs its own model key, for example `-e ANTHROPIC_API_KEY=...`.
+4. No account, and the user is here: ask the user to complete signup through the interactive CLI or website themselves. Never ask them to paste a password into chat or place it in a command argument.
+5. No account, and the task should continue: use `create --claim-later` only when the manifest lists that flag. It runs one agent on a temporary account for 72 hours and returns a claim URL. If a template needs a model key, have the user configure it through the protected `maritime env set` flow in their own terminal.
 
 Until the user clicks the link Maritime emailed them, `create`, `deploy`,
 `start`, `restart`, `keys create`, and computer creation fail with status
@@ -95,7 +98,8 @@ export MARITIME_TOKEN=mk_...
 ```
 
 Keep keys, tokens, and env values out of the chat. Store secrets with
-`maritime env set`.
+`maritime env set`, using interactive or protected environment input rather
+than exposing values in shell history or process arguments.
 
 ## Billing
 
@@ -118,15 +122,16 @@ With `--count`, the manifest allows `--template`, `--idle` / `--always-on`,
 
 ```bash
 maritime templates --json
-maritime create my-agent --template openclaw -e OPENAI_API_KEY=sk-... --json
+maritime create my-agent --template zeroclaw --json
 maritime status my-agent --json
 maritime chat my-agent "introduce yourself" --json
 ```
 
-Read `envRequired` from `templates --json` and set those secrets first. On
-the template list fetched while writing this skill, `openclaw` and `hermes`
-require `OPENAI_API_KEY`, `claude_code` requires `ANTHROPIC_API_KEY`, and
-`zeroclaw`, `codex`, and `dsh` require none. Fetch the list again; it changes.
+Read `envRequired` from the live `templates --json` result. The example assumes
+the selected template currently has no required secrets; choose another
+no-secret template if that has changed. For a template with required secrets,
+have the user configure them through the protected `maritime env set` flow in
+their own terminal.
 The reply text is `.response`. Poll `status` until it is `active`. `sleeping`
 after idle is healthy. Sleeping agents wake on the next chat.
 
@@ -169,13 +174,14 @@ Values are secret by default and apply on the next boot. `--reload`, or
 values with `--plain`.
 
 ```bash
-maritime env set my-agent OPENAI_API_KEY=sk-... --reload --json
-maritime env import my-agent ./prod.env --reload --json
 maritime env list my-agent --json
 maritime restart my-agent --json
 ```
 
 `env pull` writes a local `.env` with secret values masked.
+
+Do not import a local environment file or transmit private repository content
+to a new Maritime agent without explaining the transfer and getting approval.
 
 Timers inside a sleeping VM do not run. Put scheduled work on a platform trigger:
 

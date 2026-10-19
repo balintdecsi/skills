@@ -1,6 +1,6 @@
 ---
 name: legal-compliance
-description: Practical compliance guidance for software and data projects — EU data protection (GDPR lawful basis, consent, retention, data-subject rights), ePrivacy/cookie consent, the EU AI Act, and open-source licence compliance when reusing third-party code, content, datasets or course material (notice retention, attribution, permission requests, THIRD-PARTY-NOTICES). Use when an app collects personal data, when adding an AI feature that touches people, when auditing what a repo borrowed from elsewhere, or before publishing a repo publicly.
+description: Practical compliance guidance for software and data projects — EU data protection, GDPR lawful basis, consent records, minors, retention, data-subject rights, access control, ePrivacy/cookies, AI Act considerations, privacy pages, records of processing, and open-source or content licensing. Use when a service stores identifiable-person data, adds AI/scoring/profiling that affects people, reuses third-party code/content/data/course material, audits attribution, or prepares a repository for publication. Not for contract drafting, employment law, tax, or corporate-structure questions that require a lawyer to gather facts.
 ---
 
 # Legal compliance for software and data projects
@@ -16,20 +16,6 @@ The skill covers two independent questions that tend to arrive together:
 - **May we reuse this code, content or dataset?** — licences, attribution, permission.
 
 Either half stands alone. Load only the reference you need.
-
-## When to use
-
-Auto-apply when the task involves:
-
-- Any app, service, notebook or pipeline that stores data about identifiable people.
-- Consent UI, cookie banners, retention rules, deletion or export requests, access control.
-- Adding an LLM, scoring, ranking or profiling feature that affects a person.
-- Copying code, prose, figures, datasets or course material from somewhere else.
-- A licence audit, a `README` attribution table, or making a private repo public.
-- Writing a privacy page, a records-of-processing table, or a permission-request email.
-
-Not for: contract drafting, employment law, tax, corporate structure, or anything where the
-answer turns on facts a lawyer must gather. Say so and stop rather than improvising.
 
 ## Decision routing
 

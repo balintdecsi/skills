@@ -1,6 +1,6 @@
 ---
 name: ml-modeling
-description: Best-practice suggestions for predictive ML modelling with scikit-learn — Pipelines, ColumnTransformer, cross-validation, hyperparameter search, honest train/test evaluation, model leaderboards, and threshold/loss-based decisions. Use when building, comparing or reviewing supervised ML models (regression or classification) in Python notebooks or scripts.
+description: Best-practice suggestions for building, comparing, or reviewing predictive supervised ML models in Python with scikit-learn — Pipelines, ColumnTransformer, cross-validation, hyperparameter search, leakage prevention, candidate leaderboards, one-time held-out test evaluation, and threshold/loss-based decisions. Use for regression or classification; use statistical-modeling instead for coefficient inference and time-series-forecasting when row order and forecast horizon matter. Pair implementation reviews with code-review.
 ---
 
 # ML Modelling Best Practices (scikit-learn flavoured)
@@ -13,41 +13,24 @@ The patterns below are inspired by these course and open-source repositories:
   - [divenyijanos/ceu-ml](https://github.com/divenyijanos/ceu-ml) — *Data Science 3: Machine Learning Concepts and Tools* (CEU MSBA, János Divényi). The `ResultCollector` model-comparison pattern below comes straight from this course and is published here with his permission.
   - [gabors-data-analysis/da_case_studies](https://github.com/gabors-data-analysis/da_case_studies) (Békés–Kézdi) — cross-validated prediction, classification, and business-loss thresholding (see [ch17-predicting-firm-exit](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch17-predicting-firm-exit), [ch13-used-cars-reg](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch13-used-cars-reg)).
 - **Lightly related (data/AI engineering context only):** [zoltanctoth/ceu-ai-engineering-class](https://github.com/zoltanctoth/ceu-ai-engineering-class), [zoltanctoth/ceu-modern-data-platforms](https://github.com/zoltanctoth/ceu-modern-data-platforms).
-- **More academic — use idioms from these too:** [da_data_repo on OSF](https://osf.io/3u5em/) (Békés–Kézdi datasets). For statistical modelling specifically (OLS, confidence intervals, significance), see the companion **`statistical-modeling`** skill.
-
-## When to Use
-
-Auto-apply when the task involves:
-
-- Building or refactoring sklearn / xgboost / lightgbm / catboost models.
-- Cross-validation, hyperparameter tuning, train/test splitting.
-- Comparing multiple candidate models on a held-out set.
-- Choosing a classification threshold for a real business decision.
-- Reviewing a colleague's modelling notebook.
-
-For pure inference / explanation work (OLS coefficient interpretation, confidence intervals, hypothesis tests), reach for the **`statistical-modeling`** skill instead — they're complementary.
+- **More academic:** [da_data_repo on OSF](https://osf.io/3u5em/) (Békés–Kézdi datasets).
 
 ## Default Stack (industry-standard, what the inspiration repos use)
 
-- `scikit-learn` for everything that fits (Pipeline, ColumnTransformer, model_selection, metrics).
-- `xgboost` / `lightgbm` for tabular boosting baselines.
+- `scikit-learn` for pipelines, preprocessing, model selection, metrics, and baseline estimators.
 - `pandas` + `numpy` for data wrangling.
-- `matplotlib` + `seaborn` for plots.
-- `optuna` *only* when sklearn's `GridSearchCV` / `RandomizedSearchCV` is genuinely too slow.
+- `matplotlib` for essential diagnostic plots.
 - For experiment tracking: a plain DataFrame leaderboard is often enough (see `ResultCollector` below). Reach for MLflow / W&B when you have many runs across sessions.
-- `shap` for model interpretation and feature importance (standard in production analytics projects).
-- `ydata-profiling` (formerly `pandas-profiling`) for automated EDA reports.
-- `missingno` for missing-data visualisation.
 - `joblib` for model serialisation (prefer over `pickle` — handles large NumPy arrays better).
 
-Keep the stack boring. Sometimes a `print(score)` in a notebook cell beats wiring a tracker.
+Add boosting, interpretation, optimization, or profiling packages only when the task requires them. Keep the stack boring.
 
 ## Core Principles
 
 1. **Always have a baseline.** Predict the mean / majority class first — every model must beat it.
 2. **Pipeline everything.** No fitting transformers on the full dataset before the split. Fit-transform leaks are silent and devastating.
 3. **One held-out test set, touched once.** All model selection happens in CV on the train set.
-4. **Same split, same metric, same test set** for every candidate — fair comparison only.
+4. **Same CV folds and metric** for every candidate — fair comparison without touching the test set.
 5. **Track results in a leaderboard** as you go. The `ResultCollector` pattern below makes this a one-liner.
 6. **Set a `random_state`.** Reproducibility is free.
 7. **Optimize the metric the business cares about**, not just the one easiest to compute. For classification, that often means a custom loss + tuned threshold, not raw accuracy.
@@ -104,20 +87,20 @@ pipe.fit(X_train, y_train)
 
 ## Model Comparison: the `ResultCollector` Pattern
 
-Adapted from [class5_bike_share_demand.ipynb](https://github.com/divenyijanos/ceu-ml/blob/2026/notebooks/class5_bike_share_demand.ipynb). Drop into any modelling notebook to keep a running leaderboard. The full class lives at [snippets/result_collector.py](snippets/result_collector.py).
+Adapted from [class5_bike_share_demand.ipynb](https://github.com/divenyijanos/ceu-ml/blob/2026/notebooks/class5_bike_share_demand.ipynb). Copy or adapt the helper from [snippets/result_collector.py](snippets/result_collector.py) into the project's shared `dev/src/` modules before importing it in notebooks.
 
 ```python
-from snippets.result_collector import ResultCollector
+from dev.src.result_collector import ResultCollector
 results = ResultCollector(metric_name="RMSLE", lower_is_better=True)
 
-results.add("baseline (mean)", train=baseline_train, test=baseline_test)
-results.add("linear (FE)",     train=lin_train,      test=lin_test)
-results.add("xgboost",         train=xgb_train,      test=xgb_test)
+results.add("baseline (mean)", train=baseline_train, validation=baseline_cv)
+results.add("linear (FE)",     train=lin_train,      validation=lin_cv)
+results.add("xgboost",         train=xgb_train,      validation=xgb_cv)
 
-results.show()   # styled DataFrame: train, test, gap, % improvement over baseline
+results.show()   # train, validation, gap, and improvement over baseline
 ```
 
-A simple `print(pd.DataFrame(rows))` is often enough — don't over-engineer. The point is: **every model lands in the same table, with the same metric, sorted the same way.**
+A simple `print(pd.DataFrame(rows))` is often enough — don't over-engineer. The point is: **every candidate lands in the same CV-based table, with the same metric and folds, while the held-out test set remains untouched.**
 
 ## Cross-Validation Cheatsheet
 
@@ -200,17 +183,14 @@ pipe = joblib.load('models/model_v2.pkl')
 
 For project structure (`dev/models/` → `prod/models/` split), see the **`analytics-project-setup`** skill.
 
-## Notebook Hygiene
+## Modelling Notebook Practices
 
 - Set seeds at the top: `np.random.seed(42)`, `random_state=42` everywhere.
-- Print shapes after every split / transform — catches silent bugs.
-- One `Pipeline` per model, named clearly (`pipe_xgb`, `pipe_logit_l2`).
-- Plot calibration curves and confusion matrices in classification work — accuracy alone hides a lot.
-- "Restart & Run All" must succeed before you commit.
-- **Number notebooks by execution order** (`01_features.ipynb`, `02_exploration.ipynb`, …) — see the `analytics-project-setup` skill.
-- Use `%load_ext autoreload` / `%autoreload 2` to hot-reload `dev/src/` modules during development.
-- Keep reusable utilities (EDA, I/O, drift checks) in `dev/src/` and import them — don't copy-paste between notebooks.
-- Clear notebook outputs before committing — set up the pre-commit hook from `analytics-project-setup`.
+- Print shapes after every split / transform to catch silent bugs.
+- Use one clearly named `Pipeline` per model.
+- Plot calibration curves and confusion matrices for classification.
+- Keep reusable modeling utilities in shared modules.
+- Follow the repository-wide notebook-output policy in `AGENTS.md`.
 
 ## Anti-Patterns to Flag in Reviews
 
@@ -236,6 +216,7 @@ In [snippets/](snippets/):
 - `cv_compare_models.py` — fair `cross_val_score` comparison loop with mean ± std per model.
 - `threshold_optimization.py` — find the loss-minimising threshold per CV fold and average.
 - `paired_cv_test.py` — paired t-test / Wilcoxon on CV scores; wraps the "is the difference significant?" decision.
+- `datadrift_psi.py` — continuous and categorical PSI with reference-derived bins and per-bucket diagnostics.
 
 ## Data Sources Used in the Inspiration Courses (good for ML practice)
 

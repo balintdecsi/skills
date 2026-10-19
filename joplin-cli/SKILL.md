@@ -113,6 +113,9 @@ The CLI is the `joplin` npm package. Install into the same prefix as the
 existing binary, and allow its native build scripts, or the `sqlite3` module
 will be missing:
 
+Get user permission before installing or upgrading it, and verify the package
+source and requested version through the npm registry.
+
 ```bash
 npm install -g joplin@<version> --allow-scripts=keytar,sharp,sqlite3
 ```

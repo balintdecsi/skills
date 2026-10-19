@@ -12,7 +12,7 @@ Last verified: 2026-09-14.
 |---|---|---|---|
 | `statistical-modeling/snippets/spline_helpers.py` | [da_case_studies `ch00-tech-prep/da_helper_functions.py`](https://github.com/gabors-data-analysis/da_case_studies/blob/master/ch00-tech-prep/da_helper_functions.py) | MIT — Copyright (c) 2021 Gabors Data Analysis | Permitted. Upstream notice retained in the file header, as MIT requires. |
 | `ml-modeling/snippets/result_collector.py` | [ceu-ml `class5_bike_share_demand.ipynb`](https://github.com/divenyijanos/ceu-ml/blob/2026/notebooks/class5_bike_share_demand.ipynb) | **None declared** (all rights reserved by default) | Permitted. The author, János Divényi, granted permission by email (September 2026). Provenance recorded in the file header. |
-| `designing-analytics-projects/SKILL.md` | [earino/designing-analytics-projects](https://github.com/earino/designing-analytics-projects) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — Copyright (c) 2026 Eduardo Arino de la Rubia | Permitted with attribution. Licence named in the skill; no endorsement implied. |
+| `designing-analytics-projects/SKILL.md` | [earino/designing-analytics-projects](https://github.com/earino/designing-analytics-projects) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — Copyright (c) 2026 Eduardo Ariño de la Rubia | Permitted with attribution. Licence named in the skill; no endorsement implied. |
 
 ## Cited-only sources (ideas, structure and pointers — no copied expression)
 

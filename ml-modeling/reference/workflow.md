@@ -101,12 +101,13 @@ The std across folds is your honesty signal. If it's large, your dataset is smal
 Use the `ResultCollector` (or any DataFrame). One row per model, same metric, same CV scheme.
 
 ```python
-results.add("logistic L2", train=cv_train.mean(), test=cv_test.mean())
-results.add("rf depth=8",  train=cv_train.mean(), test=cv_test.mean())
-results.add("xgboost",     train=cv_train.mean(), test=cv_test.mean())
+results.add("logistic L2", train=cv_train.mean(), validation=cv_validation.mean())
+results.add("rf depth=8",  train=cv_train.mean(), validation=cv_validation.mean())
+results.add("xgboost",     train=cv_train.mean(), validation=cv_validation.mean())
 ```
 
-The "test" column here is **CV mean on the train set** — not the held-out test. The actual test set comes out only at step 9.
+The validation column is the CV mean on the training partition. The held-out
+test set comes out only at step 9.
 
 ---
 

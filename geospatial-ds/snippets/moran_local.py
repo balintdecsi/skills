@@ -65,7 +65,9 @@ def plot_lisa_clusters(gdf_with_lisa: gpd.GeoDataFrame, ax=None):
 
 
 if __name__ == "__main__":
-    nyc = gpd.read_file(gpd.datasets.get_path("nybb"))
-    nyc["area"] = nyc.geometry.area
-    res = moran_global(nyc, "area")
+    import geodatasets
+
+    regions = gpd.read_file(geodatasets.get_path("geoda.natregimes"))
+    regions["area"] = regions.geometry.area
+    res = moran_global(regions, "area")
     print(f"Global Moran's I = {res.I:.3f}, p = {res.p_sim:.3f}")

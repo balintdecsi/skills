@@ -1,6 +1,6 @@
 ---
 name: geospatial-ds
-description: Best-practice suggestions for geospatial data science in Python — vector data with GeoPandas/Shapely, raster data with rasterio/rioxarray/xarray, OpenStreetMap via OSMnx, geocoding, H3 spatial indexing, basemaps with contextily, and spatial statistics with PySAL/esda/spreg. Use when working with shapefiles, GeoJSON, GeoTIFF, Parquet/GeoParquet, OSM data, coordinate reference systems (CRS), maps, hex grids, or spatial joins.
+description: Best-practice suggestions for geospatial data science in Python — vector data with GeoPandas/Shapely, raster data with rasterio/rioxarray/xarray, OpenStreetMap via OSMnx, geocoding, H3 spatial indexing, basemaps with contextily, and spatial statistics or regression with PySAL/esda/spreg. Use for shapefiles, GeoJSON, GeoTIFF, GeoPackage, GeoParquet, KML, OSM data, coordinate reference systems, projections, maps, geocoding, hex grids, spatial joins, distance/area measurement, spatial autocorrelation, hotspot detection, or spatial regression. Pair implementation reviews with code-review.
 ---
 
 # Geospatial Data Science Best Practices
@@ -15,19 +15,6 @@ hex aggregation. The course notebooks were shared privately with enrolled studen
 Credited as attribution, not endorsement.
 
 Topics covered: Shapely geometries → GeoPandas vector data → rasterio/rioxarray rasters → OSMnx + geocoding + H3 spatial indexing.
-
-## When to Use
-
-Auto-apply when the task involves:
-
-- Reading or writing **shapefiles, GeoJSON, GeoPackage, GeoParquet, KML, or GeoTIFF**.
-- Anything with `geopandas`, `shapely`, `rasterio`, `rioxarray`, `xarray`, `osmnx`, `h3`, `libpysal`, `esda`, `spreg`, `contextily`, `datashader`, `geopy`.
-- Coordinate reference system (CRS) conversion, projections, EPSG codes.
-- Spatial joins (point-in-polygon, nearest neighbour, distance-based).
-- Map plots, basemaps, choropleths, hex-bin aggregations.
-- OpenStreetMap downloads (admin boundaries, POIs, road graphs, buildings).
-- Geocoding addresses ↔ coordinates.
-- Spatial autocorrelation (Moran's I), spatial regression, hotspot detection.
 
 ## Default Stack
 
@@ -44,9 +31,12 @@ Auto-apply when the task involves:
 | Big-point density rendering | `datashader` |
 | Spatial weights / Moran's I | `libpysal`, `esda` |
 | Spatial regression | `spreg` |
+| Sample datasets | `geodatasets` |
 | Output formats | GeoParquet (default), GeoJSON, Shapefile (legacy) |
 
-Pin versions in `pyproject.toml` or `requirements.txt` for reproducible environments.
+Declare dependencies in `pyproject.toml` and commit `uv.lock` for reproducible environments.
+Add `geodatasets` with `uv add geodatasets` only when the project uses the
+sample-data examples; production workflows do not need it.
 
 ## Core Principles
 
@@ -166,6 +156,8 @@ Resolution guide: 8–11 for urban analytics, 5–7 for regional, 3–4 for glob
 ## Geocoding (address ↔ coordinates)
 
 Nominatim is free, unauthenticated, and **rate-limited to ~1 req/sec**. For >100 addresses, batch with rate limiting and cache aggressively.
+Addresses are sent to an external service: explain the transfer and get approval
+before geocoding private, unpublished, or personal address data with a new provider.
 
 ```python
 from geopy.geocoders import Nominatim
@@ -214,7 +206,7 @@ gdf["lm_q"] = local.q                           # 1=HH, 2=LH, 3=LL, 4=HL
 gdf["lm_sig"] = (local.p_sim < 0.05).astype(int)
 ```
 
-For spatial regression (lag / error / SARMA models): `spreg.OLS`, `spreg.ML_Lag`, `spreg.ML_Error`. Worth it when residuals show spatial autocorrelation — non-spatial OLS will be biased.
+For spatial regression (lag / error / SARMA models): `spreg.OLS`, `spreg.ML_Lag`, `spreg.ML_Error`. Residual spatial autocorrelation can invalidate naive uncertainty estimates or indicate omitted spatial structure; choose a spatial model from the data-generating assumptions rather than assuming ordinary OLS is always biased.
 
 ## Anti-Patterns to Flag
 
@@ -257,7 +249,7 @@ Common open sources for geospatial projects:
 | **Eurostat GISCO** | NUTS administrative boundaries for EU at multiple resolutions | <https://ec.europa.eu/eurostat/web/gisco> |
 | **WorldPop** | Population grids per country at ~100 m | <https://www.worldpop.org/> |
 | **OpenAQ** | Global air-quality measurements (point data) | <https://openaq.org/> |
-| **GeoPandas built-in datasets** | `naturalearth_lowres`, `naturalearth_cities`, `nybb` (NYC boroughs) for quick prototyping | `gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))` |
+| **geodatasets** | Versioned sample geospatial datasets for quick prototyping | `gpd.read_file(geodatasets.get_path("geoda.natregimes"))` |
 
 When pulling new data for a project, default to **GeoParquet** for storage and document the **CRS, source URL, download date, and licence** in a one-line comment next to the load call.
 
@@ -279,7 +271,6 @@ Companion skills:
 
 - **`analytics-project-setup`** — folder structure, settings, and AGENTS.md for projects that include geospatial components.
 - **`ml-modeling`** — for predictive modelling on geospatial features (e.g. nearest-neighbour-derived features, spatial aggregations as ML inputs).
-- **`statistical-modeling`** — for spatial regression (PySAL/spreg) and inferential analysis with geospatial data.
 - **`data-warehousing`** — for ETL pipelines that include geospatial data sources.
 
 ---

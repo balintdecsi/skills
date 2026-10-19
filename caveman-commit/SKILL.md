@@ -5,6 +5,8 @@ description: >
   "write a commit", "commit message", /commit or /caveman-commit.
 ---
 
+# Caveman Commit
+
 Write commit messages terse and exact. Conventional Commits format. No fluff. Why over what.
 
 ## Rules

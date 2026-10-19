@@ -1,6 +1,6 @@
 ---
 name: time-series-forecasting
-description: Best-practice suggestions for time series exploration and forecasting in Python — datetime indexing, resampling, temporal train/test splits, decomposition, ACF/PACF, stationarity checks, ARIMA/SARIMA/SARIMAX, AutoGluon TimeSeriesPredictor, backtesting, forecast metrics, and prediction intervals. Use when analyzing, building, comparing, or reviewing forecasts for dated/ordered data such as demand, energy, sales, traffic, sensors, macro, or finance series.
+description: Best-practice suggestions for analyzing, building, comparing, or reviewing forecasts for dated or ordered data such as demand, energy, sales, traffic, sensors, macro, or finance series. Covers datetime indexing, resampling, trend and seasonality, lag features, temporal splits, decomposition, ACF/PACF, stationarity, ARIMA/SARIMA/SARIMAX, optional AutoGluon, multi-item forecasting, backtesting, metrics, and prediction intervals. Use ml-modeling for non-temporal supervised pipelines, statistical-modeling for coefficient inference and interrupted-time-series effects, data-warehousing for source tables, and analytics-project-setup for repository setup. Pair implementation reviews with code-review.
 ---
 
 # Time Series Forecasting Best Practices
@@ -9,36 +9,17 @@ These are **suggestions**, not absolute rules. They are based on the CEU Time Se
 
 **Primary inspiration:** <https://github.com/francescaconselvan/time_series_forecasting> (Francesca Conselvan) — aggregation, temporal patterns, seasonal decomposition, ACF/PACF, ARIMA/SARIMA, AutoGluon, and electricity / beer / passenger forecasting examples.
 
-Companion skills:
-
-- Use **`ml-modeling`** for general supervised ML pipelines; use this skill when row order and forecast horizon matter.
-- Use **`statistical-modeling`** for coefficient interpretation and hypothesis tests; use this skill for temporal dependence, forecast diagnostics, and uncertainty over future values.
-- Use **`data-warehousing`** for building reliable source tables that feed forecasts.
-- Use **`analytics-project-setup`** for repo structure, notebook hygiene, and environment setup.
-
-## When to Use
-
-Auto-apply when the task involves:
-
-- Forecasting a numeric target indexed by time.
-- Demand, sales, energy, traffic, sensor, macroeconomic, weather, finance, or operations time series.
-- Resampling / aggregating timestamped data, e.g. half-hourly → daily / monthly.
-- Trend, seasonality, holiday/calendar effects, lag features, rolling windows.
-- ACF/PACF, stationarity tests, differencing, ARIMA/SARIMA/SARIMAX.
-- AutoGluon `TimeSeriesPredictor`, panel / multi-item forecasts, known future covariates.
-- Reviewing a forecasting notebook for leakage, validation quality, or metric choice.
-
 ## Default Stack
 
 - `pandas`, `numpy` for timestamp parsing, indexing, resampling, and feature engineering.
-- `matplotlib`, `seaborn`, `plotly` for time plots, seasonal plots, residual plots.
+- `matplotlib` for time plots, seasonal plots, and residual diagnostics.
 - `statsmodels` for `seasonal_decompose` / STL, ADF/KPSS, ACF/PACF, ARIMA/SARIMAX, diagnostics.
-- `pmdarima` for `auto_arima` when a quick ARIMA order search is useful; still inspect diagnostics.
 - `scikit-learn` for metrics and simple ML baselines with explicit temporal splits.
-- `autogluon.timeseries` for strong AutoML baselines and multi-series forecasting.
-- `ydata-profiling` for first-pass EDA when datasets are not too large.
+- `autogluon.timeseries` only when automated or multi-series forecasting is required.
 
-Keep the stack boring. For many business forecasts, seasonal naive + ARIMA/SARIMA + one AutoML model is a strong, defensible comparison set.
+Keep the stack boring. For many business forecasts, seasonal naive plus
+ARIMA/SARIMA is a strong comparison set. Add an AutoML model only when automated
+or multi-series forecasting is part of the task.
 
 ## Core Principles
 
@@ -253,7 +234,7 @@ When using external data, record source URL, download date, timezone, frequency,
 - Number notebooks by workflow order if the project grows.
 - Keep reusable metric, plotting, and backtesting helpers in shared modules rather than copy-pasting cells.
 - Restart & Run All before relying on a notebook result.
-- Clear noisy outputs before committing unless outputs are intentionally part of the report.
+- Follow the repository-wide requirement in `AGENTS.md` to clear all notebook outputs before committing.
 
 ---
 

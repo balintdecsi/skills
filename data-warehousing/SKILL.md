@@ -1,6 +1,6 @@
 ---
 name: data-warehousing
-description: Best practices for designing data warehouses and analytical pipelines using the bronze/silver/gold medallion architecture, validations-as-code, and idempotent transforms. Use when building or modifying data pipelines, ETL/ELT jobs, dbt models, SQL warehouses, lakehouses, or any layered analytics workload (DuckDB, Snowflake, BigQuery, Postgres, Spark, etc.).
+description: Best practices for designing and reviewing data warehouses and analytical pipelines using the mandatory bronze/silver/gold medallion architecture, validations-as-code, idempotent transforms, explicit table grain and keys, and in-pipeline data-quality checks. Use for ETL/ELT jobs, dbt models, Airflow DAGs, SQL warehouses, lakehouses, source ingestion, table modeling, and layered analytics workloads in DuckDB, Snowflake, BigQuery, Postgres, Spark, and similar systems. Pair implementation reviews with code-review.
 ---
 
 # Data Warehousing Best Practices
@@ -11,24 +11,13 @@ The guidance is **tool-agnostic**. The user is not always using DuckDB — apply
 
 **Upstream source for further reference:** <https://github.com/earino/ECBS5294> (course repository the user inspired this skill from — check it for full notebooks, slides and worked examples). The course materials are licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the datasets under its `data/` folder are excluded and keep their own licences, some NonCommercial/ShareAlike. Credited as attribution; this does not imply endorsement by the author.
 
-## When to Use
-
-Apply this skill whenever the user is:
-
-- Designing or modifying a data warehouse / lakehouse / analytics database.
-- Writing or reviewing ETL/ELT pipelines, dbt models, Airflow DAGs, notebooks, or SQL transforms.
-- Adding tests, assertions, or data-quality checks.
-- Modeling tables (fact/dimension, normalization, primary keys).
-- Ingesting CSV / JSON / API / Parquet sources into analytical tables.
-- Reviewing somebody else's pipeline code.
-
 ## Core Principles (the non-negotiables)
 
 1. **Layer your pipeline: bronze → silver → gold.** Never collapse all transforms into one step.
 2. **Validations are code, not vibes.** Every layer has explicit assertions that fail loudly.
 3. **Idempotent transforms.** Re-running a step must produce the same result — use `CREATE OR REPLACE`, `MERGE`, or `if_exists='replace'`, never blind appends.
 4. **Fail fast.** Detect bad data at the boundary it arrives. Do not let `NaN`/`NaT`/`NULL` silently propagate.
-5. **Bronze is read-only.** The raw landing zone is an audit trail; never edit it in place.
+5. **Bronze is append-only and versioned.** Preserve every source snapshot needed for auditability; never overwrite or edit a prior snapshot.
 6. **Document assumptions next to the code** that depends on them (a comment on the filter, not a wiki page).
 7. **Reproducibility:** relative paths, pinned dependencies, "Run-All from a clean clone" must succeed.
 
@@ -47,7 +36,7 @@ SOURCE → [BRONZE] → [SILVER] → [GOLD] → CONSUMERS
 - Land data **exactly as received**. No casts, no filtering, no renames.
 - One bronze table per source (`bronze_orders`, `bronze_nyc_permits_json`, ...).
 - Capture lineage columns when cheap: `_ingested_at`, `_source_file`, `_source_row_number`.
-- Treat bronze as an **append-only or replace-only archive**. If reprocessing, drop & reload from source — never mutate.
+- Treat bronze as an **append-only, versioned archive**. Record a source version, ingestion timestamp, or content hash so retries can deduplicate without overwriting history.
 
 ### Silver — clean, typed, validated
 
@@ -91,7 +80,7 @@ A pipeline step is **idempotent** if running it N times produces the same result
 
 Patterns that are idempotent:
 
-- `CREATE OR REPLACE TABLE silver_x AS SELECT ...`
+- `CREATE OR REPLACE TABLE silver_x AS SELECT ...` (silver/gold)
 - `DROP TABLE IF EXISTS silver_x; CREATE TABLE silver_x AS ...`
 - `MERGE INTO target USING source ON ... WHEN MATCHED ... WHEN NOT MATCHED ...`
 - `df.to_sql(..., if_exists='replace')` or writing to a partition with overwrite semantics.
@@ -100,7 +89,7 @@ Patterns that are **not** idempotent (avoid unless you really mean it):
 
 - `INSERT INTO ... SELECT ...` without a dedup/merge step.
 - `df.to_sql(..., if_exists='append')` in a notebook that may be re-run.
-- Mutating bronze in place.
+- Replacing or mutating an existing bronze snapshot.
 
 ## Modeling Cheatsheet
 

@@ -1,6 +1,6 @@
 ---
 name: statistical-modeling
-description: Best-practice suggestions for statistical / inferential modelling in Python — OLS and logistic regression with statsmodels, robust standard errors, side-by-side regression tables with stargazer, confidence and prediction intervals, hypothesis tests, and significance reporting. Use when interpreting coefficients, building explanatory regressions, comparing nested models, reporting confidence/prediction intervals, or testing whether an effect is statistically significant.
+description: Best-practice suggestions for building, interpreting, or reviewing statistical and inferential models in Python — OLS and logistic regression with statsmodels, robust standard errors, regression tables, confidence and prediction intervals, hypothesis tests, interrupted-time-series inference, and significance reporting. Use when estimating effects, interpreting coefficients, comparing explanatory specifications, or asking whether an effect is statistically and practically significant. Use ml-modeling for predictive CV/leaderboards, time-series-forecasting for ARIMA and forecasts, and geospatial-ds for PySAL/spreg. Pair implementation reviews with code-review.
 ---
 
 # Statistical Modelling Best Practices
@@ -14,31 +14,15 @@ The patterns are inspired by Békés–Kézdi (*Data Analysis for Business, Econ
 - CEU Coding 2 — `intro_to_regression.ipynb` (`smf.ols`, robust SE, `stargazer` side-by-side tables, linear splines); private coursework.
 - [ch17-predicting-firm-exit](https://github.com/gabors-data-analysis/da_case_studies/tree/master/ch17-predicting-firm-exit) for the link to predictive evaluation under business loss.
 
-This skill is the **inferential / explanatory counterpart** to the `ml-modeling` skill. Use this when the question is *"how big is the effect, and are we sure?"*. Use `ml-modeling` when the question is *"how accurately can we predict?"*. They overlap on significance testing of model differences — see [reference/inference_vs_prediction.md](reference/inference_vs_prediction.md).
-
-## When to Use
-
-Auto-apply when the task involves:
-
-- Estimating and *interpreting* regression coefficients (not just predicting).
-- Confidence intervals on parameters or fitted values.
-- Prediction intervals for individual observations.
-- Side-by-side comparison of nested or competing regression specifications.
-- Hypothesis tests (t-test, F-test for joint significance, Wald, likelihood ratio).
-- Robust / heteroscedasticity-consistent standard errors.
-- Linear splines, log-log specifications, fixed effects on cross-sections.
-- Reading a colleague's regression notebook and asking "is this defensible?".
+The inferential-versus-predictive distinction is explained in
+[reference/inference_vs_prediction.md](reference/inference_vs_prediction.md).
 
 ## Default Stack
 
 - `statsmodels` — `smf.ols`, `smf.logit`, `sm.OLS`. Use the formula API (`smf`) by default; falls back to `sm.OLS` when you need a design matrix.
 - `stargazer` — side-by-side regression tables (the package used across [da_case_studies](https://github.com/gabors-data-analysis/da_case_studies) and CEU Coding 2).
 - `scipy.stats` — t-tests, F-tests, Wilcoxon, etc. when you need raw tests.
-- `pandas`, `numpy`, `matplotlib`, `seaborn` for the rest.
-- `ydata-profiling` (formerly `pandas-profiling`) for automated EDA reports — especially useful for the exploratory phase before specifying a model.
-- `missingno` for missing-data visualisation.
-
-For **predictive** workflows (cross-validation, held-out test sets, leaderboards) → switch to the `ml-modeling` skill and use `scikit-learn`. For **project setup** (folder structure, environments) → see the `analytics-project-setup` skill.
+- `pandas`, `numpy`, and `matplotlib` for data preparation and diagnostics.
 
 ## Core Principles
 
@@ -177,18 +161,6 @@ That's: estimate, CI, p-value, plain-English interpretation. **Always include th
 - Comparing models by R² alone — penalise complexity (adj-R², BIC) or compare on a held-out set.
 - Treating logistic-regression coefficients as probabilities (they're log-odds).
 
-## Automated EDA / Profiling Before Modelling
-
-Before specifying a model, run an automated profile to catch data quality issues:
-
-```python
-from ydata_profiling import ProfileReport
-profile = ProfileReport(df, minimal=True)   # minimal=True for large datasets
-profile.to_file('eda_report.html')
-```
-
-For quick missing-data diagnostics: `import missingno as msno; msno.matrix(df)` — shows nullity patterns at a glance.
-
 ## Data Preparation Utilities
 
 Standardise column names early (`df.columns = df.columns.str.replace('-', '_').str.replace(' ', '_').str.lower()`). For full column-locking helpers (`name_lock`, `type_lock`), see the `analytics-project-setup` skill.
@@ -204,9 +176,7 @@ In [snippets/](snippets/):
 
 ## Data Sources Used in the Inspiration Courses
 
-Almost all worked examples across [da_case_studies](https://github.com/gabors-data-analysis/da_case_studies), [da_data_repo on OSF](https://osf.io/3u5em/), and CEU Coding 2
-`da_data_repo`, and `da_case_studies` come from **Békés & Kézdi, *Data Analysis for Business,
-Economics, and Policy*** (Cambridge, 2021). The companion data is openly available and is the
+Almost all worked examples across [da_case_studies](https://github.com/gabors-data-analysis/da_case_studies), [da_data_repo on OSF](https://osf.io/3u5em/), and CEU Coding 2 come from **Békés & Kézdi, *Data Analysis for Business, Economics, and Policy*** (Cambridge, 2021). The companion data is openly available and is the
 single best collection of cleanly-documented small/medium datasets for inferential modeling practice:
 
 | Resource | What | URL |
@@ -235,7 +205,7 @@ Other free, well-suited sources for inferential exercises:
 | Seaborn datasets | `tips`, `diamonds`, `mpg`, `penguins` — small enough to teach, big enough to find effects | `import seaborn as sns; sns.load_dataset("diamonds")` |
 | OpenML | Tabular datasets with metadata; great for replication exercises | <https://www.openml.org/> |
 | World Bank Open Data | Country-year panels for cross-country regressions | <https://data.worldbank.org/> |
-| FRED (Federal Reserve Economic Data) | Macro time series for ARIMA / interrupted time-series | <https://fred.stlouisfed.org/> via `pandas_datareader` |
+| FRED (Federal Reserve Economic Data) | Macro time series for interrupted-time-series inference; use `time-series-forecasting` for ARIMA forecasts | <https://fred.stlouisfed.org/> via `pandas_datareader` |
 
 When loading from OSF, the canonical pattern from the `da_*` repos works directly in Python:
 

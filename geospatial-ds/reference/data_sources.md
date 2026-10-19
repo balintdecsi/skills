@@ -57,22 +57,16 @@ For >100 addresses, batch with a rate limiter and cache to disk (see `snippets/g
 
 ---
 
-## Built-in / quick-start datasets
+## Quick-start datasets
 
-For prototyping without downloading anything:
+Install the maintained `geodatasets` package for versioned sample data:
 
 ```python
+import geodatasets
 import geopandas as gpd
-world  = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
-cities = gpd.read_file(gpd.datasets.get_path("naturalearth_cities"))
-nyc    = gpd.read_file(gpd.datasets.get_path("nybb"))         # NYC boroughs
-```
 
-The `geodatasets` package adds many more (Chicago crashes, US air-quality monitors, etc.):
-
-```python
-import geodatasets, geopandas as gpd
-gpd.read_file(geodatasets.get_path("geoda.chicago_commpop"))
+regions = gpd.read_file(geodatasets.get_path("geoda.natregimes"))
+chicago = gpd.read_file(geodatasets.get_path("geoda.chicago_commpop"))
 ```
 
 ---

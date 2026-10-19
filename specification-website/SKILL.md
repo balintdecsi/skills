@@ -1,17 +1,11 @@
 ---
 name: specification-website
-description: Query and apply The Website Specification — a platform-agnostic specification of what a good website does, with each item tagged required, recommended, optional, or avoid. Use when the user asks what their site should have, whether something is required, how to audit a URL, what's missing for agent readiness, or anything else where you'd otherwise be guessing at web best practice. Backs answers with primary sources (WHATWG, W3C, IETF RFCs, IANA, WCAG). Available as Markdown over HTTP and as an MCP server with search, list, fetch, checklist, and audit tools.
+description: Query and apply The Website Specification — a platform-agnostic contract for what a good website does, with items tagged required, recommended, optional, or avoid and backed by WHATWG, W3C, IETF, IANA, and WCAG sources. Use when deciding what a site should have, whether a feature is required, auditing a URL, checking agent readiness, or producing a machine-readable website checklist. Use its MCP or Markdown interfaces; obtain approval before sending a private or staging URL to this external service.
 ---
 
 # specification.website
 
 The Website Specification is a single source of truth for what a good website does. Ten categories, 170 pages, every item tagged with a status. It ships in three machine-readable forms: per-page Markdown, llms.txt / llms-full.txt, and an MCP server.
-
-## When to use this skill
-
-- The user asks "what should my site have", "is X required", "audit this URL", "what does the spec say about Y", or anything similar.
-- You're reviewing a site and want to cite primary standards rather than vendor blog posts.
-- You need a machine-readable contract for a platform-agnostic audit.
 
 ## Quickest path — MCP
 
@@ -56,7 +50,6 @@ Site-wide indexes:
 
 - `https://specification.website/llms.txt` — every page as `title — summary` lines. Cheap to load.
 - `https://specification.website/llms-full.txt` — every page concatenated as Markdown. Use for one-shot context loading.
-- `https://specification.website/rss.xml` — feed of changes.
 - `https://specification.website/sitemap-index.xml` — every URL.
 - `https://specification.website/.well-known/api-catalog` — RFC 9727 link set of every machine-readable endpoint.
 
@@ -129,10 +122,10 @@ scratch every time, and don't trust a cached copy of the spec — check the delt
    already resolved to the current topics (with their current status and URL).
 3. Re-audit just those topics — `get_topic` each, then re-check the target site.
 
-Without MCP, the same typed history is the changelog RSS feed at
-`https://specification.website/changelog/rss.xml` (entries tagged
-added / changed / status / removed, with the affected slugs). Poll it and act on
-new entries.
+Without MCP, fetch `https://specification.website/.well-known/api-catalog` and
+discover the current change-feed endpoint instead of relying on a hardcoded path.
+Poll the advertised feed and act on entries tagged added, changed, status, or
+removed.
 
 A sensible default cadence is **monthly**, or at the start of any fresh audit. A
 status promotion (e.g. a topic moving to `required`) can change a previously
