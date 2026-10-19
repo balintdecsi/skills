@@ -94,12 +94,15 @@ For unattended work, after the account is verified:
 
 ```bash
 maritime keys create --name my-agent --json   # raw_key (mk_...) is shown once
-export MARITIME_TOKEN=mk_...
+read -rsp "MARITIME_TOKEN: " MARITIME_TOKEN && echo
+export MARITIME_TOKEN
 ```
 
-Keep keys, tokens, and env values out of the chat. Store secrets with
-`maritime env set`, using interactive or protected environment input rather
-than exposing values in shell history or process arguments.
+Keep keys, tokens, and env values out of the chat and shell history.
+`MARITIME_TOKEN` authenticates the local CLI; do not send it to the agent with
+`maritime env set`. Use that command for agent runtime secrets, with interactive
+or protected environment input rather than exposing values in process
+arguments.
 
 ## Billing
 

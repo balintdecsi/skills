@@ -101,9 +101,29 @@ The std across folds is your honesty signal. If it's large, your dataset is smal
 Use the `ResultCollector` (or any DataFrame). One row per model, same metric, same CV scheme.
 
 ```python
-results.add("logistic L2", train=cv_train.mean(), validation=cv_validation.mean())
-results.add("rf depth=8",  train=cv_train.mean(), validation=cv_validation.mean())
-results.add("xgboost",     train=cv_train.mean(), validation=cv_validation.mean())
+from sklearn.model_selection import cross_validate
+
+candidates = {
+    "logistic L2": logistic_l2_pipeline,
+    "rf depth=8": rf_depth_8_pipeline,
+    "xgboost": xgboost_pipeline,
+}
+
+for name, candidate in candidates.items():
+    candidate_scores = cross_validate(
+        candidate,
+        X_train,
+        y_train,
+        cv=cv,
+        scoring="roc_auc",
+        n_jobs=-1,
+        return_train_score=True,
+    )
+    results.add(
+        name,
+        train=candidate_scores["train_score"].mean(),
+        validation=candidate_scores["test_score"].mean(),
+    )
 ```
 
 The validation column is the CV mean on the training partition. The held-out

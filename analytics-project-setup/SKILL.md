@@ -131,7 +131,8 @@ Examples:
 
 ## Environment Management
 
-Use `uv` for new projects (see the `uv` skill for details):
+Use `uv` for new projects (see the `uv` skill for details). Confirm the
+dependency set with the user before adding or installing packages:
 
 ```bash
 uv init
@@ -428,7 +429,7 @@ When asked to set up a new analytics project:
 2. **Update `README.md`** with project-specific info (business requirements, scope, links).
 3. **Copy the generic `AGENTS.md` policy** and append the project-specific context above.
 4. **Create shared config/constants** in `dev/src/config.py` for paths and table names.
-5. **Set up the uv project and environment** (`uv init`; add the project dependencies and `ipykernel`, `jupyter`, and `nbconvert`; then `uv sync`).
+5. **After the user approves the dependency set, set up the uv project and environment** (`uv init`; add the project dependencies and `ipykernel`, `jupyter`, and `nbconvert`; then `uv sync`).
 6. **Install the documented local pre-commit hook** for notebook output clearing.
 7. **Set `git config core.ignoreCase false`.**
 8. **Remove `data/` and `dev/visualization/` from git cache** if inherited from template.

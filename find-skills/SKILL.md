@@ -10,14 +10,14 @@ the user approves the verified source and scope.
 
 ## What is the Skills CLI?
 
-The Skills CLI (`npx skills`) is the package manager for the open agent skills ecosystem. Skills are modular packages that extend agent capabilities with specialized knowledge, workflows, and tools.
+The Skills CLI (`npx skills@1.7.2`) is the package manager for the open agent skills ecosystem. Skills are modular packages that extend agent capabilities with specialized knowledge, workflows, and tools. The examples below pin the reviewed CLI version; verify the source and release before updating that pin.
 
 **Key commands:**
 
-- `npx skills find [query]` - Search for skills interactively or by keyword
-- `npx skills add <package>` - Install a skill from GitHub or other sources
-- `npx skills check` - Check for skill updates
-- `npx skills update` - Update all installed skills
+- `npx skills@1.7.2 find [query]` - Search for skills interactively or by keyword
+- `npx skills@1.7.2 add <package>` - Install a skill from GitHub or other sources
+- `npx skills@1.7.2 check` - Check for skill updates
+- `npx skills@1.7.2 update` - Update all installed skills
 
 **Browse skills at:** https://skills.sh/
 
@@ -44,7 +44,7 @@ For example, top skills for web development include:
 If the leaderboard doesn't cover the user's need, run the find command:
 
 ```bash
-npx skills find [query]
+npx skills@1.7.2 find [query]
 ```
 
 Search only with generic capability terms. Do not send private repository
@@ -52,8 +52,8 @@ content, personal data, unpublished product details, or secrets in the query.
 
 For example:
 
-- "Find a React performance skill" → `npx skills find react performance`
-- "Is there a changelog skill?" → `npx skills find changelog`
+- "Find a React performance skill" → `npx skills@1.7.2 find react performance`
+- "Is there a changelog skill?" → `npx skills@1.7.2 find changelog`
 
 ### Step 4: Verify Quality Before Recommending
 
@@ -80,20 +80,26 @@ React and Next.js performance optimization guidelines from Vercel Engineering.
 (185K installs)
 
 To install it:
-npx skills add vercel-labs/agent-skills@react-best-practices
+npx skills@1.7.2 add vercel-labs/agent-skills@react-best-practices
 
 Learn more: https://skills.sh/vercel-labs/agent-skills/react-best-practices
 ```
 
 ### Step 6: Offer to Install
 
-If the user explicitly chooses to proceed after reviewing the source and requested scope, install the skill with the verified Skills CLI:
+If the user explicitly chooses to proceed after reviewing the source and requested scope, install the skill project-locally by default with the verified Skills CLI:
 
 ```bash
-npx skills add <owner/repo@skill> -g -y
+npx skills@1.7.2 add <owner/repo@skill> -y
 ```
 
-The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts.
+Use `-g` only when the user separately approves a global (user-level) install:
+
+```bash
+npx skills@1.7.2 add <owner/repo@skill> -g -y
+```
+
+The `-y` flag skips the CLI's confirmation prompt only after the user has approved the source and scope.
 
 ## Common Skill Categories
 
@@ -121,7 +127,7 @@ If no relevant skills exist:
 
 1. Acknowledge that no existing skill was found
 2. Offer to help with the task directly using your general capabilities
-3. Suggest the user could create their own skill with `npx skills init`
+3. Suggest the user could create their own skill with `npx skills@1.7.2 init`
 
 Example:
 
@@ -130,5 +136,5 @@ I searched for skills related to "xyz" but didn't find any matches.
 I can still help you with this task directly! Would you like me to proceed?
 
 If this is something you do often, you could create your own skill:
-npx skills init my-xyz-skill
+npx skills@1.7.2 init my-xyz-skill
 ```

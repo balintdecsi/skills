@@ -19,7 +19,7 @@ From [agentskills.io](https://agentskills.io):
 When adding an existing skill from the web, use the [skills.sh](https://skills.sh) tool:
 
 ```bash
-npx skills add
+npx skills@1.7.2 add
 ```
 
 ## Sources and attribution

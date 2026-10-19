@@ -26,7 +26,10 @@ import pandas as pd
 
 
 class ResultCollector:
+    """Collect comparable train and validation scores for model candidates."""
+
     def __init__(self, metric_name: str = "score", lower_is_better: bool = True):
+        """Configure the metric label and which direction indicates improvement."""
         self.metric_name = metric_name
         self.lower_is_better = lower_is_better
         self._results: dict[str, dict[str, float]] = {}
@@ -41,6 +44,7 @@ class ResultCollector:
         return self
 
     def as_frame(self) -> pd.DataFrame:
+        """Return the leaderboard and improvement over its first-row baseline."""
         df = pd.DataFrame(self._results).T
         if df.empty:
             return df
@@ -76,6 +80,7 @@ class ResultCollector:
             return df
 
     def best(self) -> str:
+        """Return the name of the best candidate by validation score."""
         df = self.as_frame()
         validation_col = f"Validation {self.metric_name}"
         return (
@@ -85,4 +90,5 @@ class ResultCollector:
         )
 
     def __repr__(self) -> str:
+        """Return the raw leaderboard representation."""
         return repr(self.as_frame())

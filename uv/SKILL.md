@@ -10,8 +10,9 @@ description:
 
 # uv
 
-uv is an extremely fast Python package and project manager. It replaces pip,
-pip-tools, pipx, pyenv, virtualenv, poetry, etc.
+uv is an extremely fast Python package and project manager. It can replace
+pip, pip-tools, pipx, pyenv, virtualenv, Poetry, and similar tools, but preserve
+an existing supported workflow unless the user requests a migration.
 
 ## Choosing the right workflow
 

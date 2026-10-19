@@ -34,8 +34,10 @@ Topics covered: Shapely geometries → GeoPandas vector data → rasterio/rioxar
 | Sample datasets | `geodatasets` |
 | Output formats | GeoParquet (default), GeoJSON, Shapefile (legacy) |
 
-Declare dependencies in `pyproject.toml` and commit `uv.lock` for reproducible environments.
-Add `geodatasets` with `uv add geodatasets` only when the project uses the
+Use the project's existing package manager. For a greenfield project, declare
+dependencies in `pyproject.toml` and commit `uv.lock` for reproducibility.
+Get approval before adding packages. Add `geodatasets` with
+`uv add geodatasets` only after approval and only when the project uses the
 sample-data examples; production workflows do not need it.
 
 ## Core Principles

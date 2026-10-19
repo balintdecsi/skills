@@ -16,11 +16,13 @@ _MISSING = "<MISSING>"
 
 
 def _smoothed_proportions(counts: np.ndarray, epsilon: float) -> np.ndarray:
+    """Return epsilon-smoothed proportions that still sum to one."""
     total = counts.sum()
     if total == 0:
         raise ValueError("PSI inputs must contain at least one observation")
     proportions = counts.astype(float) / total
-    return np.clip(proportions, epsilon, None)
+    proportions = np.clip(proportions, epsilon, None)
+    return proportions / proportions.sum()
 
 
 def _numeric_counts(
@@ -28,10 +30,13 @@ def _numeric_counts(
     actual: pd.Series,
     bins: int | Sequence[float],
 ) -> tuple[list[Hashable], np.ndarray, np.ndarray]:
+    """Count numeric values in reference-derived bins plus a missing bucket."""
     expected_values = pd.to_numeric(expected, errors="raise").dropna().to_numpy()
     actual_values = pd.to_numeric(actual, errors="raise").dropna().to_numpy()
     if expected_values.size == 0:
         raise ValueError("expected must contain a non-missing numeric observation")
+    if not np.isfinite(expected_values).all() or not np.isfinite(actual_values).all():
+        raise ValueError("numeric PSI inputs must contain only finite values")
 
     if isinstance(bins, int):
         if bins < 2:
@@ -44,13 +49,25 @@ def _numeric_counts(
             raise ValueError("explicit bins must contain at least two unique edges")
 
     if len(edges) < 2:
-        edges = np.array([-np.inf, np.inf])
+        reference_value = expected_values[0]
+        edges = np.unique(
+            np.array(
+                [
+                    -np.inf,
+                    reference_value,
+                    np.nextafter(reference_value, np.inf),
+                    np.inf,
+                ]
+            )
+        )
     else:
         edges[0], edges[-1] = -np.inf, np.inf
 
     expected_counts, _ = np.histogram(expected_values, bins=edges)
     actual_counts, _ = np.histogram(actual_values, bins=edges)
-    labels: list[Hashable] = list(pd.IntervalIndex.from_breaks(edges))
+    labels: list[Hashable] = list(
+        pd.IntervalIndex.from_breaks(edges, closed="left")
+    )
 
     expected_missing = int(expected.isna().sum())
     actual_missing = int(actual.isna().sum())
@@ -66,11 +83,32 @@ def _categorical_counts(
     expected: pd.Series,
     actual: pd.Series,
 ) -> tuple[list[Hashable], np.ndarray, np.ndarray]:
-    expected = expected.astype("object").where(expected.notna(), _MISSING)
-    actual = actual.astype("object").where(actual.notna(), _MISSING)
-    labels = list(pd.Index(expected.unique()).union(pd.Index(actual.unique())))
-    expected_counts = expected.value_counts().reindex(labels, fill_value=0).to_numpy()
-    actual_counts = actual.value_counts().reindex(labels, fill_value=0).to_numpy()
+    """Count real categories and missing values in distinct buckets."""
+    expected_values = expected[expected.notna()].astype("object")
+    actual_values = actual[actual.notna()].astype("object")
+    categories = list(
+        dict.fromkeys([*expected_values.tolist(), *actual_values.tolist()])
+    )
+    labels: list[Hashable] = [
+        f"category:{value}" if value == _MISSING else value
+        for value in categories
+    ]
+    expected_counts = np.array(
+        [int((expected_values == value).sum()) for value in categories],
+        dtype=int,
+    )
+    actual_counts = np.array(
+        [int((actual_values == value).sum()) for value in categories],
+        dtype=int,
+    )
+
+    expected_missing = int(expected.isna().sum())
+    actual_missing = int(actual.isna().sum())
+    if expected_missing or actual_missing:
+        labels.append(_MISSING)
+        expected_counts = np.append(expected_counts, expected_missing)
+        actual_counts = np.append(actual_counts, actual_missing)
+
     return labels, expected_counts, actual_counts
 
 
@@ -97,10 +135,7 @@ def psi_report(
         raise ValueError("expected and actual must both be non-empty")
 
     if categorical is None:
-        categorical = not (
-            pd.api.types.is_numeric_dtype(expected_series)
-            and pd.api.types.is_numeric_dtype(actual_series)
-        )
+        categorical = not pd.api.types.is_numeric_dtype(expected_series)
 
     if categorical:
         labels, expected_counts, actual_counts = _categorical_counts(
