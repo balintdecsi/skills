@@ -1,6 +1,6 @@
 ---
 name: product-discovery
-description: Suggestions for the earliest stage of a revenue-generating product — brainstorming problems and ideas, framing hypotheses, customer-discovery interviews (Mom Test), personas and beachhead markets, market sizing (TAM), competitor tables, riskiest-assumption tests, MVP design (landing page, concierge, Wizard of Oz, pre-order), business models, pricing and unit economics (LTV, CAC). Use when starting a new product or side-business repo, when the user asks "is this idea worth building?", "how do I validate this?", "who is the customer?", "how big is the market?", "what should the MVP be?", "how should I price it?", or wants a pitch / one-pager. Not for analytics project scoping — see designing-analytics-projects for that.
+description: Suggestions for the earliest stage of a revenue-generating product — problem and idea selection, hypotheses, Mom Test interviews, personas, beachhead markets, TAM, competitors, riskiest-assumption tests, MVP experiments, business models, pricing, and viability-focused LTV/CAC. Use when starting or reviewing a product, SaaS, app, service, side business, pitch, or one-pager, or when asking whether an idea is worth building, how to validate it, who the customer is, how large the market is, what the MVP should be, or how to price it. For commercial data products, run this skill first, then designing-analytics-projects when a formal analysis is required, and analytics-project-setup only after scope is approved.
 ---
 
 # Product Discovery — from idea to evidence before code
@@ -19,7 +19,8 @@ Fitzpatrick), credited below. Attribution, not endorsement.
 ## Cardinal Rule — Evidence, not enthusiasm
 
 > **Never invent customers, quotes, interview results, market sizes, conversion rates or
-> competitor prices.** If a number is not in the user's notes or a cited source, write
+> competitor prices.** If required information is missing, ask the user. If it
+> remains unavailable and the user still wants a draft, write
 > `TBD — how to find out: …` instead.
 
 Made-up traction is worse than none: it makes a bad idea look validated. When drafting,
@@ -34,17 +35,6 @@ label every claim with its evidence level:
 | 4 — Repeat payment / retention | They paid again, they came back | Product-market fit territory |
 
 Ideas move forward on levels 2–4. Levels 0–1 never justify building.
-
-## When to Use
-
-- A new repo or folder is being set up for a product, SaaS, app, service or side business.
-- The user asks to brainstorm ideas, pick between ideas, or "sanity-check" one.
-- Drafting interview scripts, personas, a competitor table, a TAM estimate, an MVP plan, pricing
-  or a pitch / one-pager.
-- Reviewing an existing plan for skipped validation ("we'll build it and then find users").
-
-Do **not** use for scoping an internal analytics project (→ `designing-analytics-projects`) or
-for the technical repo scaffold (→ `analytics-project-setup`, `uv`).
 
 ## The Discovery Loop (default workflow)
 
@@ -114,8 +104,10 @@ An MVP is an experiment, not a half-built product. Prefer the top of this list.
 | **Single-feature / no-code** | Retention around one job | Carrd, Figma, Bubble, a spreadsheet, a Telegram bot | Weeks |
 | **Paper / click-through prototype** | Usability of the core flow | Sketches or Figma, tested think-aloud | Hours–days |
 
-When testing a prototype with a user: the builder stays silent, the tester thinks aloud, no
-defending or explaining. Ask at the end: *would you pay / use it? why or why not?*
+When testing a prototype with a user: the builder stays silent, the tester thinks aloud, with no
+defending or explaining. End by requesting a concrete commitment appropriate to the stage:
+a deposit, paid pilot, scheduled follow-up, introduction, or permission to continue testing.
+Do not replace that evidence with a hypothetical "would you pay or use it?" question.
 
 ## Product-Market Fit Signals
 
@@ -258,8 +250,8 @@ Financing options and VC basics: [reference/financing.md](reference/financing.md
 
 ## Related skills
 
-- `designing-analytics-projects` — counter-metrics, pre-mortems and stakeholder maps carry
-  over well to product experiments.
+- `designing-analytics-projects` — scope a formal analytics project, including a CAC/LTV
+  analysis, after product discovery establishes the business decision it must inform.
 - `statistical-modeling` — when an A/B test or pricing experiment needs a proper significance
   test or confidence interval.
 - `legal-compliance` — interview notes, waitlists and analytics collect personal data; AI

@@ -1,13 +1,13 @@
 # skills
 
-This repository contains global [Agent Skills](https://agentskills.io) for analytics, data science, and machine learning workflows.
+This repository contains global [Agent Skills](https://agentskills.io) for software engineering, analytics, data science, product work, compliance, and command-line workflows.
 
 ## What are Agent Skills?
 
 From [agentskills.io](https://agentskills.io):
 
 > **Why Agent Skills?**
-> Agents are increasingly capable, but often don't have the context they need to do real work reliably. Skills solve this by packaging procedural knowledge and company-, team-, and user-specific context into portable, version-controlled folders that agents load on demand. This gives agents:
+> Agents are increasingly capable, but often don't have the context they need to do real work reliably. Skills solve this by packaging procedural knowledge and company-, team-, and user-specific context into portable, version-controlled folders that agents load on demand.
 
 ## How to use these skills
 
@@ -19,38 +19,17 @@ From [agentskills.io](https://agentskills.io):
 When adding an existing skill from the web, use the [skills.sh](https://skills.sh) tool:
 
 ```bash
-npx skills add
+npx skills@1.7.2 add
 ```
-
-## Skills in this repo
-
-| Skill | Focus |
-|---|---|
-| [analytics-project-setup](analytics-project-setup/) | Repo scaffolding, environments, notebooks, pre-commit |
-| [code-review](code-review/) | AI code review with CodeRabbit |
-| [data-warehousing](data-warehousing/) | Bronze / silver / gold pipelines, validations-as-code |
-| [designing-analytics-projects](designing-analytics-projects/) | Analytics Project Brief (scoping before code) |
-| [find-skills](find-skills/) | Discover and install skills from the ecosystem |
-| [geospatial-ds](geospatial-ds/) | GeoPandas, rasters, OSM, H3, spatial statistics |
-| [gh-cli](gh-cli/) | Authenticated GitHub CLI workflows |
-| [joplin-cli](joplin-cli/) | Read and edit Joplin notes via the `joplin` CLI with safe cloud sync |
-| [legal-compliance](legal-compliance/) | GDPR, cookies, EU AI Act, and open-source licence compliance |
-| [maritime-cli](maritime-cli/) | Deploy and operate hosted agents with the `maritime` CLI |
-| [ml-modeling](ml-modeling/) | scikit-learn pipelines, CV, model comparison |
-| [notion-cli](notion-cli/) | Notion API and workers via the `ntn` CLI |
-| [product-discovery](product-discovery/) | Ideation, customer interviews, MVP tests, market sizing, pricing for revenue products |
-| [statistical-modeling](statistical-modeling/) | OLS / logistic regression, intervals, stargazer |
-| [time-series-forecasting](time-series-forecasting/) | Temporal splits, ARIMA, AutoGluon, backtesting |
-| [uv](uv/) | Python environments and dependency management with uv |
 
 ## Sources and attribution
 
-Many skills distill patterns from CEU MSBA coursework, open course repositories, and standard references. Each skill's `SKILL.md` links to the relevant notebooks and files; the table below is the index.
+Some skills distill patterns from CEU MSBA coursework, open course repositories, and standard references. Skills derived from external material link to their relevant sources; original and CLI-focused skills may not have a course source. The table below records external attribution where applicable.
 
 | Skill | Course / source | Instructor / author | Repository | Upstream licence |
 |---|---|---|---|---|
 | **data-warehousing** | ECBS5294 — Introduction to Data Science: Working with Data | Eduardo Ariño de la Rubia | [earino/ECBS5294](https://github.com/earino/ECBS5294) | CC BY 4.0 (course materials; `data/` excluded) |
-| **designing-analytics-projects** | ECBS5228A — Designing Analytics Projects | Eduardo Arino de la Rubia | [earino/designing-analytics-projects](https://github.com/earino/designing-analytics-projects) | CC BY 4.0 |
+| **designing-analytics-projects** | ECBS5228A — Designing Analytics Projects | Eduardo Ariño de la Rubia | [earino/designing-analytics-projects](https://github.com/earino/designing-analytics-projects) | CC BY 4.0 |
 | **ml-modeling** | ECBS5233 — Data Science 3: Machine Learning Concepts and Tools | János Divényi | [divenyijanos/ceu-ml](https://github.com/divenyijanos/ceu-ml) | None declared — used with the author's permission |
 | **ml-modeling**, **statistical-modeling** | *Data Analysis for Business, Economics, and Policy* (case studies, datasets) | Gábor Békés, Gábor Kézdi | [gabors-data-analysis/da_case_studies](https://github.com/gabors-data-analysis/da_case_studies), [da_data_repo on OSF](https://osf.io/3u5em/) | MIT (case studies) |
 | **ml-modeling** | AI Engineering, Modern Data Platforms (light context) | Zoltán C. Tóth | [zoltanctoth/ceu-ai-engineering-class](https://github.com/zoltanctoth/ceu-ai-engineering-class), [zoltanctoth/ceu-modern-data-platforms](https://github.com/zoltanctoth/ceu-modern-data-platforms) | CC BY-NC 4.0 / BSD-3 |

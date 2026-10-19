@@ -1,6 +1,6 @@
 ---
 name: analytics-project-setup
-description: Technical setup skill for analytics and data science projects — repository scaffolding, folder structure (dev/prod split, data layers, numbered notebooks), environment management (uv, venv, dotenv), pre-commit hooks for notebook output clearing, branching and commit conventions, .gitignore patterns, AGENTS.md creation, database/storage I/O patterns, and production orchestration notebooks. Use when initialising a new analytics project, setting up a repo for a data science team, or creating an AGENTS.md file.
+description: Technical setup skill for analytics and data science projects — repository scaffolding, mandatory dev/prod and bronze/silver/gold structure, numbered notebooks, uv environments, dotenv, notebook-output hooks, branching and Conventional Commits, .gitignore patterns, README and AGENTS.md creation, database/storage I/O patterns, and production orchestration notebooks. Use when initialising or restructuring an analytics repository, setting up its environment or documentation, configuring team Git conventions, or deploying notebook workflows to production.
 ---
 
 # Analytics Project Setup — Technical Guide
@@ -9,32 +9,18 @@ These are **codified best practices** for scaffolding, configuring, and maintain
 
 They adapt to any cloud (GCP, AWS, Azure) or local stack.
 
-## When to Use
-
-Auto-apply when the task involves:
-
-- Initialising a new analytics / data science project repository.
-- Creating or updating folder structure for a modelling project.
-- Setting up `.env`, `.gitignore`, or pre-commit hooks.
-- Writing or reviewing `README.md` for an analytics project.
-- Creating an `AGENTS.md` file for an analytics project.
-- Starting a new repository with a proven analytics structure.
-- Setting up environment management (virtual environments, requirements).
-- Configuring branching strategy or commit conventions for a data team.
-- Deploying notebooks to production (cloud or on-premise).
-
 ## The Canonical Folder Structure
 
 Every project follows this layout. The `dev/` and `prod/` split is the single most important structural decision — it separates exploratory work from production-grade code.
 
 ```
-├── data/                                    # Data (NOT in version control)
+├── data/                                    # Data (ignored unless explicitly tracked)
 │   ├── external/                            # Third-party / lookup data
-│   ├── interim/                             # Intermediate transforms
-│   ├── processed/                           # Final, canonical datasets
+│   ├── bronze/                              # Immutable source snapshots
+│   ├── silver/                              # Cleaned, typed, validated data
+│   ├── gold/                                # Business-ready datasets
 │   │   ├── train_sample.csv
 │   │   └── test_sample.csv
-│   └── raw/                                 # Immutable original data dump
 │
 ├── dev/                                     # Development workspace
 │   ├── models/                              # Trained model artifacts (.pkl)
@@ -49,12 +35,12 @@ Every project follows this layout. The `dev/` and `prod/` split is the single mo
 │   │   ├── __init__.py
 │   │   ├── io.py                            # Data I/O helpers (DB, storage)
 │   │   ├── explore.py                       # EDA utilities, plot helpers
-│   │   └── datadrift_PSI.py                 # Data drift monitoring (PSI)
+│   │   └── datadrift_psi.py                 # Data drift monitoring (PSI)
 │   └── visualization/                       # Generated plots, figures
 │
 ├── examples/                                # Reference notebooks & templates
 │   ├── EDA_notebook.ipynb
-│   ├── datadrift_PSI_example.ipynb
+│   ├── datadrift_psi_example.ipynb
 │   ├── preprocessing_notebook.ipynb
 │   ├── environment_variable_example.ipynb
 │   └── environment_variable_example.env
@@ -65,7 +51,8 @@ Every project follows this layout. The `dev/` and `prod/` split is the single mo
 │   │   └── project-process-control.ipynb    # Orchestrator notebook
 │
 ├── .gitignore                               # Python + project-specific ignores
-├── requirements.txt                         # Pinned dependencies
+├── pyproject.toml                            # Project metadata and dependencies
+├── uv.lock                                   # Reproducible dependency lock
 ├── AGENTS.md                                # AI agent instructions (see below)
 └── README.md                                # Project documentation
 ```
@@ -74,8 +61,8 @@ Every project follows this layout. The `dev/` and `prod/` split is the single mo
 
 1. **Number notebooks by execution order:** `01_`, `02_`, `03_`, … This makes the workflow self-documenting.
 2. **`dev/` is your sandbox, `prod/` is sacred.** Experimental code stays in `dev/`. Only reviewed, stable code moves to `prod/`.
-3. **`data/` is never committed.** It lives in `.gitignore`. Data goes in cloud storage or is generated via SQL.
-4. **`dev/visualization/` is never committed.** Plots are ephemeral outputs, regenerated from notebooks.
+3. **Ignore `data/` by default.** Track only small samples or intentional artifacts when the project explicitly documents that choice.
+4. **Ignore `dev/visualization/` by default.** Track a generated figure only when it is an intentional project artifact.
 5. **`dev/src/` contains reusable modules** — import these in notebooks, don't copy-paste code between cells.
 6. **`examples/` contains reference material** — EDA templates, environment setup examples, data drift examples.
 7. **Keep runtime config minimal.** Start with environment variables and small Python config modules; add heavier config layers only when needed.
@@ -88,7 +75,7 @@ Skip heavyweight config files at first. Use `.env` for secrets and a tiny Python
 # dev/src/config.py
 from pathlib import Path
 
-ROOT = Path(".")
+ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "data"
 MODEL_DIR = ROOT / "dev" / "models"
 SQL_DIR = ROOT / "dev" / "sql"
@@ -133,22 +120,19 @@ Examples:
 
 ## Commit Message Conventions
 
-- **Language:** English.
-- **Tense:** Imperative (think: "This commit will _…_").
-- **Style:** Capitalised, no trailing punctuation, 3–7 words.
+Use Conventional Commits with short, imperative summaries:
 
 Examples:
 
-- `Add feature engineering notebook`
-- `Solve duplication issue on table 420`
-- `Include docs folder in gitignore`
-- `Shortlist different tree-based models`
+- `feat(data): add feature engineering notebook`
+- `fix(pipeline): prevent duplicate table rows`
+- `chore: ignore generated documentation`
+- `refactor(model): compare tree-based candidates`
 
 ## Environment Management
 
-### Recommended: `uv` (modern, fast)
-
-For new projects, prefer `uv` (see the `uv` skill for details):
+Use `uv` for new projects (see the `uv` skill for details). Confirm the
+dependency set with the user before adding or installing packages:
 
 ```bash
 uv init
@@ -156,9 +140,9 @@ uv add pandas scikit-learn matplotlib numpy scipy
 uv add --dev ipykernel jupyter nbconvert
 ```
 
-### Legacy: `venv` + `requirements.txt`
+### Existing legacy projects
 
-The classic `venv` workflow still works fine:
+Preserve an existing `venv` + `requirements.txt` workflow rather than migrating it implicitly:
 
 ```bash
 python -m venv .venv
@@ -176,10 +160,7 @@ numpy
 matplotlib
 pandas
 scikit-learn
-ydata-profiling
-missingno
 joblib
-shap
 ```
 
 Pin versions for production (`matplotlib==3.7.2`). Leave unpinned in dev for flexibility.
@@ -189,14 +170,14 @@ Pin versions for production (`matplotlib==3.7.2`). Leave unpinned in dev for fle
 For secrets (API keys, database credentials) that must **never** be committed:
 
 ```bash
-pip install python-dotenv
+uv add python-dotenv
 ```
 
 Create `.env` in project root (already in `.gitignore`):
 
 ```
-DB_PASSWORD=my_secret_password
-API_KEY=abc123
+DB_PASSWORD=
+API_KEY=
 ```
 
 Load in notebooks:
@@ -211,7 +192,7 @@ password = os.getenv("DB_PASSWORD")
 
 ## Pre-commit Hook: Clearing Notebook Outputs
 
-**Non-negotiable.** Notebook outputs bloat repos, leak data, and cause merge conflicts. Use a direct Git hook at `.git/hooks/pre-commit` (no extra hook framework):
+As required by `AGENTS.md`, clear every notebook output before committing. Document this local Git hook at `.git/hooks/pre-commit` and install it after each clone:
 
 ```bash
 cat > .git/hooks/pre-commit <<'EOF'
@@ -222,9 +203,19 @@ set -euo pipefail
 staged_notebooks="$(git diff --cached --name-only --diff-filter=ACM -- '*.ipynb')"
 [ -z "${staged_notebooks}" ] && exit 0
 
+if [ -f uv.lock ]; then
+  command -v uv >/dev/null || {
+    echo "uv is required to clear notebook outputs in this project" >&2
+    exit 1
+  }
+  nbconvert=(uv run jupyter nbconvert)
+else
+  nbconvert=(jupyter nbconvert)
+fi
+
 while IFS= read -r notebook; do
   [ -f "${notebook}" ] || continue
-  jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace "${notebook}"
+  "${nbconvert[@]}" --ClearOutputPreprocessor.enabled=True --inplace "${notebook}"
   git add "${notebook}"
 done <<< "${staged_notebooks}"
 EOF
@@ -275,9 +266,9 @@ pyvenv.cfg
 The `prod/notebooks/project-process-control.ipynb` pattern runs all production notebooks in sequence:
 
 ```python
-from pathlib import Path
+from dev.src.config import ROOT
 
-project_root = Path("/project_name")
+notebook_dir = ROOT / "prod" / "notebooks"
 notebooks = [
     "01_precheck.ipynb",
     "02_features.ipynb",
@@ -286,7 +277,7 @@ notebooks = [
 ]
 
 for notebook in notebooks:
-    file = project_root / notebook
+    file = notebook_dir / notebook
     try:
         %run $file
         print(f"{notebook} is done")
@@ -301,20 +292,26 @@ This ensures notebooks run in the defined order and fail fast on errors.
 
 ## Database / Storage I/O Patterns
 
-Centralise data access through parameterised SQL files and a small config module:
+Centralise data access through SQL files, bound value parameters, and a small config module:
 
 ```python
 import pandas as pd
 from dev.src import config
 
-def read_sql_file(query_path, connection, **params):
-    """Load data from a SQL database using a parameterised SQL file."""
+def read_sql_file(query_path, connection, params=None):
+    """Load data using the database driver's bound-value parameters."""
     with open(query_path, 'r') as f:
-        sql = f.read().format(**params)
-    return pd.read_sql(sql, connection)
+        sql = f.read()
+    return pd.read_sql(sql, connection, params=params)
+
+# With a SQLAlchemy connection, orders.sql can contain:
+# SELECT * FROM orders WHERE customer_id = :customer_id
+orders = read_sql_file("dev/sql/orders.sql", connection, {"customer_id": 42})
 ```
 
-The key principle is provider-agnostic: keep SQL separate from Python, parameterise through function arguments and small config constants, and centralise I/O in `dev/src/io.py`. Swap `pd.read_sql` for `pd.read_gbq`, `snowflake.connector`, or any other client as needed.
+Keep SQL separate from Python and centralise I/O in `dev/src/io.py`. Bind untrusted values through the database API; use carefully validated templating only for identifiers that the driver cannot bind. Swap `pd.read_sql` for `pd.read_gbq`, `snowflake.connector`, or another client as needed.
+Placeholder syntax is driver-specific (`:name`, `?`, or `%s`), so match the
+connection library rather than interpolating values into the SQL string.
 
 ## Column Standardisation Helpers
 
@@ -334,11 +331,12 @@ def type_lock(df):
 
 ## AGENTS.md — How to Write One for Analytics Projects
 
-Every analytics project should include an `AGENTS.md` file in its root. This file tells AI coding agents **how to work with this specific project**. Here's the template:
+Every analytics project should receive the user's generic `AGENTS.md` as its
+base policy. Preserve that policy and append only project-specific context; do
+not fork generic Git, dependency, review, notebook-output, or safety rules into
+a second template.
 
 ```markdown
-# AGENTS.md
-
 ## Project Overview
 
 [One-paragraph description: what this project does, what business question it answers.]
@@ -354,40 +352,20 @@ Every analytics project should include an `AGENTS.md` file in its root. This fil
 
 [Copy the folder tree from this skill, adapted to the project's specifics.]
 
-## Working with This Project
+## Project Workflow
 
-### Setup
-1. Clone the repository
-2. Create virtual environment: `python -m venv .venv` (or `uv sync`)
-3. Install dependencies: `pip install -r requirements.txt`
-4. Set up pre-commit hook for notebook output clearing
-5. Copy `.env.example` → `.env` and fill in credentials
-
-### Running Notebooks
 - Notebooks are numbered and must be run in order: `01_`, `02_`, …
 - Each notebook imports shared config/constants from `dev/src/` as needed
 - `dev/` notebooks are for experimentation; `prod/` notebooks are production-ready
 
 ### Data
 - Raw data is loaded from [database / cloud storage] via SQL scripts in `dev/sql/`
-- Never commit data files — they are in `.gitignore`
-- Processed data goes to `data/processed/`
+- Data is ignored by default; list any intentionally tracked samples or artifacts
+- Raw snapshots go to `data/bronze/`, cleaned data to `data/silver/`, and business-ready data to `data/gold/`
 
 ### Models
 - Trained models are saved as `.pkl` files in `dev/models/` or `prod/models/`
 - Always version model artifacts with a descriptive name
-
-### Branching & Commits
-- Branch prefixes: `data/`, `analysis/`, `model/`, `bugfix/`, `release/`
-- Commit messages: English, imperative, capitalised, 3–7 words, no punctuation
-
-## Code Conventions
-
-- Import shared config/constants at the top of every notebook
-- Use `dev/src/` modules for reusable logic — don't duplicate code across notebooks
-- Use `%load_ext autoreload` and `%autoreload 2` for hot-reloading during development
-- Set `warnings.filterwarnings('ignore')` only in production notebooks
-- Clear notebook outputs before committing (pre-commit hook handles this)
 
 ## Key Decisions & Context
 
@@ -395,16 +373,12 @@ Every analytics project should include an `AGENTS.md` file in its root. This fil
 
 ## Related Skills
 
-When working on this project, the agent should also reference:
-- `ml-modeling` — for model building patterns
-- `statistical-modeling` — for inferential analysis
-- `data-warehousing` — for data pipeline patterns
-- `designing-analytics-projects` — for the project brief
+[List only the domain skills relevant to this project.]
 ```
 
 ### AGENTS.md Best Practices
 
-1. **Be specific to the project.** Generic advice belongs in skills, not AGENTS.md.
+1. **Keep the generic base policy intact.** Add project facts rather than rewriting shared rules.
 2. **Document the data lineage.** Where does the data come from? What SQL/queries generate it?
 3. **List known gotchas.** "Column X has 30% missing values", "Table Y is refreshed weekly on Mondays".
 4. **Document your config source.** Show where paths, table names, and constants are defined.
@@ -438,7 +412,7 @@ Keep READMEs structured consistently (aligned with Géron's "Frame the problem" 
 - **Unnumbered notebooks.** No one knows what order to run them.
 - **Scattered hardcoded paths** instead of shared config/constants.
 - **Committed `.env` files** with secrets.
-- **Committed data files** or notebook outputs.
+- **Undocumented committed data files or generated artifacts**, or any committed notebook outputs.
 - **No `__init__.py` in `src/`.** Imports fail.
 - **Copy-pasted utility functions** across notebooks instead of using `dev/src/`.
 - **No pre-commit hook.** Notebook outputs leak into version control.
@@ -451,17 +425,17 @@ Keep READMEs structured consistently (aligned with Géron's "Frame the problem" 
 
 When asked to set up a new analytics project:
 
-1. **Create the repository** following the folder structure above.
+1. **Create a topic branch** and scaffold the repository using the folder structure above.
 2. **Update `README.md`** with project-specific info (business requirements, scope, links).
-3. **Create `AGENTS.md`** using the template above.
+3. **Copy the generic `AGENTS.md` policy** and append the project-specific context above.
 4. **Create shared config/constants** in `dev/src/config.py` for paths and table names.
-5. **Set up virtual environment** (`uv init` or `python -m venv .venv`).
-6. **Install pre-commit hook** for notebook output clearing.
+5. **After the user approves the dependency set, set up the uv project and environment** (`uv init`; add the project dependencies and `ipykernel`, `jupyter`, and `nbconvert`; then `uv sync`).
+6. **Install the documented local pre-commit hook** for notebook output clearing.
 7. **Set `git config core.ignoreCase false`.**
 8. **Remove `data/` and `dev/visualization/` from git cache** if inherited from template.
 9. **Create initial notebooks** with numbered prefixes: `01_data_collection.ipynb`, `02_eda.ipynb`, etc.
 10. **Create `.env.example`** with placeholder keys (no real values).
-11. **Commit** with message: `Initialise analytics project structure`.
+11. **Commit** with message: `chore: initialize analytics project structure`.
 
 ## Further Reference
 

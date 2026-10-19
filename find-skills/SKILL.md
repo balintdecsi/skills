@@ -1,33 +1,23 @@
 ---
 name: find-skills
-description: Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.
+description: Helps users discover and, with permission, install agent skills when they ask to find a skill, ask whether a skill exists, or want to extend agent capabilities. Check installed and repository-local skills first; search the external ecosystem only when no suitable local skill exists. Do not divert an ordinary task into skill discovery merely because the user asks “how do I do X?”.
 ---
 
 # Find Skills
 
-This skill helps you discover and install skills from the open agent skills ecosystem.
-
-## When to Use This Skill
-
-Use this skill when the user:
-
-- Asks "how do I do X" where X might be a common task with an existing skill
-- Says "find a skill for X" or "is there a skill for X"
-- Asks "can you do X" where X is a specialized capability
-- Expresses interest in extending agent capabilities
-- Wants to search for tools, templates, or workflows
-- Mentions they wish they had help with a specific domain (design, testing, deployment, etc.)
+This skill helps discover skills from the open ecosystem and install one after
+the user approves the verified source and scope.
 
 ## What is the Skills CLI?
 
-The Skills CLI (`npx skills`) is the package manager for the open agent skills ecosystem. Skills are modular packages that extend agent capabilities with specialized knowledge, workflows, and tools.
+The Skills CLI (`npx skills@1.7.2`) is the package manager for the open agent skills ecosystem. Skills are modular packages that extend agent capabilities with specialized knowledge, workflows, and tools. The examples below pin the reviewed CLI version; verify the source and release before updating that pin.
 
 **Key commands:**
 
-- `npx skills find [query]` - Search for skills interactively or by keyword
-- `npx skills add <package>` - Install a skill from GitHub or other sources
-- `npx skills check` - Check for skill updates
-- `npx skills update` - Update all installed skills
+- `npx skills@1.7.2 find [query]` - Search for skills interactively or by keyword
+- `npx skills@1.7.2 add <package>` - Install a skill from GitHub or other sources
+- `npx skills@1.7.2 check` - Check for skill updates
+- `npx skills@1.7.2 update` - Update all installed skills
 
 **Browse skills at:** https://skills.sh/
 
@@ -35,15 +25,15 @@ The Skills CLI (`npx skills`) is the package manager for the open agent skills e
 
 ### Step 1: Understand What They Need
 
-When a user asks for help with something, identify:
+When the user asks to discover or install a skill, identify:
 
 1. The domain (e.g., React, testing, design, deployment)
 2. The specific task (e.g., writing tests, creating animations, reviewing PRs)
 3. Whether this is a common enough task that a skill likely exists
 
-### Step 2: Check the Leaderboard First
+### Step 2: Check Local Skills, Then the Leaderboard
 
-Before running a CLI search, check the [skills.sh leaderboard](https://skills.sh/) to see if a well-known skill already exists for the domain. The leaderboard ranks skills by total installs, surfacing the most popular and battle-tested options.
+Inspect installed and repository-local skills first. Use a matching local skill instead of searching for or installing a duplicate. If none fits, check the [skills.sh leaderboard](https://skills.sh/) before running a CLI search. The leaderboard ranks skills by total installs, surfacing popular options.
 
 For example, top skills for web development include:
 - `vercel-labs/agent-skills` — React, Next.js, web design (100K+ installs each)
@@ -54,14 +44,16 @@ For example, top skills for web development include:
 If the leaderboard doesn't cover the user's need, run the find command:
 
 ```bash
-npx skills find [query]
+npx skills@1.7.2 find [query]
 ```
+
+Search only with generic capability terms. Do not send private repository
+content, personal data, unpublished product details, or secrets in the query.
 
 For example:
 
-- User asks "how do I make my React app faster?" → `npx skills find react performance`
-- User asks "can you help me with PR reviews?" → `npx skills find pr review`
-- User asks "I need to create a changelog" → `npx skills find changelog`
+- "Find a React performance skill" → `npx skills@1.7.2 find react performance`
+- "Is there a changelog skill?" → `npx skills@1.7.2 find changelog`
 
 ### Step 4: Verify Quality Before Recommending
 
@@ -88,20 +80,26 @@ React and Next.js performance optimization guidelines from Vercel Engineering.
 (185K installs)
 
 To install it:
-npx skills add vercel-labs/agent-skills@react-best-practices
+npx skills@1.7.2 add vercel-labs/agent-skills@react-best-practices
 
 Learn more: https://skills.sh/vercel-labs/agent-skills/react-best-practices
 ```
 
 ### Step 6: Offer to Install
 
-If the user wants to proceed, you can install the skill for them:
+If the user explicitly chooses to proceed after reviewing the source and requested scope, install the skill project-locally by default with the verified Skills CLI:
 
 ```bash
-npx skills add <owner/repo@skill> -g -y
+npx skills@1.7.2 add <owner/repo@skill> -y
 ```
 
-The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts.
+Use `-g` only when the user separately approves a global (user-level) install:
+
+```bash
+npx skills@1.7.2 add <owner/repo@skill> -g -y
+```
+
+The `-y` flag skips the CLI's confirmation prompt only after the user has approved the source and scope.
 
 ## Common Skill Categories
 
@@ -129,7 +127,7 @@ If no relevant skills exist:
 
 1. Acknowledge that no existing skill was found
 2. Offer to help with the task directly using your general capabilities
-3. Suggest the user could create their own skill with `npx skills init`
+3. Suggest the user could create their own skill with `npx skills@1.7.2 init`
 
 Example:
 
@@ -138,5 +136,5 @@ I searched for skills related to "xyz" but didn't find any matches.
 I can still help you with this task directly! Would you like me to proceed?
 
 If this is something you do often, you could create your own skill:
-npx skills init my-xyz-skill
+npx skills@1.7.2 init my-xyz-skill
 ```

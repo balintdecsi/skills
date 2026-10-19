@@ -38,9 +38,10 @@ after:
 
 ## Install
 
-```bash
-curl -fsSL https://ntn.dev | bash
-```
+If `ntn` is missing, get user permission before installing it. Follow the
+current official package-manager instructions from <https://ntn.dev>; do not
+pipe a remote installer directly to a shell. Verify the installed binary with
+`ntn --version` before authenticating.
 
 ## Authentication
 
@@ -51,6 +52,8 @@ curl -fsSL https://ntn.dev | bash
 - `ntn login` / `ntn logout` — log the CLI in or out (only use if not using
   `NOTION_API_TOKEN`). `ntn login` requires the user to visit a URL in a web
   browser.
+- Explain the transfer and get approval before uploading private, unpublished,
+  personal, or secret-bearing local content to a new Notion workspace.
 
 ## `ntn api`
 
@@ -107,6 +110,9 @@ ntn files get <upload-id>
 
 Manage Notion workers (deploy, list, execute, etc.). Run `ntn workers --help`
 for subcommands.
+
+Confirm before deploying to production, executing a capability with destructive
+or costly effects, or changing account-level worker configuration.
 
 ```bash
 ntn workers new my-worker        # scaffold a new project
