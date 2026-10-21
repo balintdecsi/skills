@@ -26,7 +26,7 @@ gh repo clone vercel-labs/web-interface-guidelines "$tmp/wig" -- --depth 1 --qui
   || git clone --depth 1 --quiet https://github.com/vercel-labs/web-interface-guidelines.git "$tmp/wig"
 ```
 
-The rules are in `$tmp/wig/command.md`. When there is no network, use [reference/upstream-command.md](reference/upstream-command.md), a snapshot of commit `4ecfb9f` (2026-10-05).
+The rules are in `$tmp/wig/command.md`. If both clones fail (no network or no access), use [reference/upstream-command.md](reference/upstream-command.md), a snapshot of commit `4ecfb9f` (2026-10-05), skip the comparison below, and label the report `snapshot 4ecfb9f (offline)`.
 
 After a live fetch, compare the file with the snapshot body. Run this from this skill's folder:
 
