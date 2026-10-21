@@ -1,6 +1,6 @@
 ---
 name: specification-website
-description: Query and apply The Website Specification — a platform-agnostic contract for what a good website does, with items tagged required, recommended, optional, or avoid and backed by WHATWG, W3C, IETF, IANA, and WCAG sources. Use when deciding what a site should have, whether a feature is required, auditing a URL, checking agent readiness, or producing a machine-readable website checklist. Use its MCP or Markdown interfaces; obtain approval before sending a private or staging URL to this external service.
+description: Query and apply The Website Specification — a platform-agnostic contract for what a good website does, with items tagged required, recommended, optional, or avoid and backed by WHATWG, W3C, IETF, IANA, and WCAG sources. Use when deciding what a site should have, whether a feature is required, auditing a URL, checking agent readiness, or producing a machine-readable website checklist. Use its MCP or Markdown interfaces; obtain approval before sending a private or staging URL to this external service. Use web-ui-review to review UI source code and web-design for visual direction.
 ---
 
 # specification.website
