@@ -24,7 +24,7 @@ npx skills@1.7.2 add
 
 ## Sources and attribution
 
-Some skills distill patterns from CEU MSBA coursework, open course repositories, and standard references. Skills derived from external material link to their relevant sources; original and CLI-focused skills may not have a course source. The table below records external attribution where applicable.
+Some skills distill patterns from CEU MSBA coursework, open course repositories, standard references, and published agent skills. Skills derived from external material link to their relevant sources; original and CLI-focused skills may not have a course source. The table below records external attribution where applicable.
 
 | Skill | Course / source | Instructor / author | Repository | Upstream licence |
 |---|---|---|---|---|
@@ -38,6 +38,9 @@ Some skills distill patterns from CEU MSBA coursework, open course repositories,
 | **geospatial-ds** | Geospatial Data Science (CEU MSBA) | Milán Janosov | *(course notebooks shared privately; not redistributed)* — [The New Science of Maps](https://www.thenewscienceofmaps.com/) | — (attribution approved by the instructor) |
 | **product-discovery** | Entrepreneurship and Innovation (CEU MSBA, 2026) | Andrea Kozma | *(course slides shared privately; not redistributed)* — plus published frameworks (Ries, Blank, Sarasvathy, Aulet, Christensen, Fitzpatrick) | — (ideas and structure only; no copied expression) |
 | **analytics-project-setup** | Industry project structure | — | [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/), [ageron/handson-ml3](https://github.com/ageron/handson-ml3) | MIT / Apache-2.0 |
+| **web-design** | `frontend-design` agent skill (adapted; changes listed at the top of the skill) | Anthropic | [anthropics/skills](https://github.com/anthropics/skills/tree/main/skills/frontend-design) | Apache-2.0 |
+| **web-ui-review** | Web Interface Guidelines and the `web-design-guidelines` agent skill | Vercel Labs | [vercel-labs/web-interface-guidelines](https://github.com/vercel-labs/web-interface-guidelines), [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills/tree/main/skills/web-design-guidelines) | MIT (guidelines); none declared, README states MIT (agent skill) |
+| **shadcn** | shadcn/ui agent skill (installed unmodified with the skills CLI) | shadcn | [shadcn-ui/ui](https://github.com/shadcn-ui/ui/tree/main/skills/shadcn) | MIT |
 
 When a skill cites a file path (e.g. `notebooks/class5_bike_share_demand.ipynb`), it refers to that path inside the repository listed above unless another URL is given explicitly.
 

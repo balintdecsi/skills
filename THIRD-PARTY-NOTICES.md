@@ -4,15 +4,19 @@ The skills in this repository are original writing by the repository author and 
 released under the [MIT License](LICENSE). A small number of files derive from, or
 cite, third-party material. Those are listed here with their upstream licence.
 
-Last verified: 2026-09-14.
+Last verified: 2026-09-14. Rows for `web-design`, `web-ui-review` and `shadcn` verified 2026-10-21.
 
-## Derived material (code adapted from an upstream source)
+## Derived material (code or text adapted or vendored from an upstream source)
 
 | File | Upstream | Upstream licence | Status |
 |---|---|---|---|
 | `statistical-modeling/snippets/spline_helpers.py` | [da_case_studies `ch00-tech-prep/da_helper_functions.py`](https://github.com/gabors-data-analysis/da_case_studies/blob/master/ch00-tech-prep/da_helper_functions.py) | MIT — Copyright (c) 2021 Gabors Data Analysis | Permitted. Upstream notice retained in the file header, as MIT requires. |
 | `ml-modeling/snippets/result_collector.py` | [ceu-ml `class5_bike_share_demand.ipynb`](https://github.com/divenyijanos/ceu-ml/blob/2026/notebooks/class5_bike_share_demand.ipynb) | **None declared** (all rights reserved by default) | Permitted. The author, János Divényi, granted permission by email (September 2026). Provenance recorded in the file header. |
 | `designing-analytics-projects/SKILL.md` | [earino/designing-analytics-projects](https://github.com/earino/designing-analytics-projects) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — Copyright (c) 2026 Eduardo Ariño de la Rubia | Permitted with attribution. Licence named in the skill; no endorsement implied. |
+| `web-design/SKILL.md` | [anthropics/skills `frontend-design/SKILL.md`](https://github.com/anthropics/skills/blob/41bbe19/skills/frontend-design/SKILL.md) at `41bbe19` | Apache-2.0 | Permitted. Licence copied to `web-design/LICENSE.txt` (§4a); changes stated at the top of the file (§4b). Upstream ships no `NOTICE` file. |
+| `web-ui-review/reference/upstream-command.md` | [vercel-labs/web-interface-guidelines `command.md`](https://github.com/vercel-labs/web-interface-guidelines/blob/4ecfb9f/command.md) at `4ecfb9f` | MIT — Copyright (c) 2025 Vercel Labs | Permitted. Verbatim snapshot; MIT notice retained in the file header. |
+| `web-ui-review/reference/overrides.md` | Same `command.md` | MIT — Copyright (c) 2025 Vercel Labs | Permitted. Rules restated, tiered, and partly rewritten; MIT notice retained in the file header. |
+| `shadcn/` (whole folder) | [shadcn-ui/ui `skills/shadcn`](https://github.com/shadcn-ui/ui/tree/4233ed1/skills/shadcn) at `4233ed1`, installed 2026-10-21 | MIT — Copyright (c) 2023 shadcn | Permitted. Installed unmodified with the skills CLI, so no header was added; the MIT notice is reproduced under "Vendored licences" below. The CLI's lock file lives outside this repository (`~/.agents/.skill-lock.json` on the installing machine), so update this row's commit whenever the folder changes. |
 
 ## Cited-only sources (ideas, structure and pointers — no copied expression)
 
@@ -37,8 +41,39 @@ credited as a matter of courtesy and scholarly practice, not licence obligation.
 | Steve Blank, "Why the Lean Start-Up Changes Everything", *Harvard Business Review* (May 2013) | © Harvard Business Publishing; individual research use only | `product-discovery` — cited; no text reproduced |
 | [OpenStax *Entrepreneurship*](https://openstax.org/books/entrepreneurship/pages/1-3-the-entrepreneurial-mindset) | CC BY 4.0 | `product-discovery` — cited |
 | [Global Entrepreneurship Monitor 2025/2026 Global Report](https://www.gemconsortium.org) | © GEM; free to download | `product-discovery` — indicator definitions (TEA, NECI, 13 EFCs) summarised as facts |
+| [vercel-labs/agent-skills `web-design-guidelines`](https://github.com/vercel-labs/agent-skills/tree/main/skills/web-design-guidelines) | None declared (no licence file; the README states MIT) | `web-ui-review/SKILL.md` — workflow idea only (fetch the rules fresh, report `file:line`). Verified with `legal-compliance/snippets/overlap_check.py`: 0 shared prose lines out of 38 and no near-matches. |
 
-## Vendored licence
+## Vendored licences
 
 `notion-cli/LICENSE.md` reproduces the MIT licence of the Notion CLI
 (Copyright (c) 2026 Notion Labs, Inc.), which the skill documents.
+
+`web-design/LICENSE.txt` is the Apache License 2.0 copied from
+[anthropics/skills `frontend-design`](https://github.com/anthropics/skills/blob/41bbe19/skills/frontend-design/LICENSE.txt).
+
+The `shadcn/` skill ships without a licence file. Its upstream repository's MIT notice,
+copied verbatim from [shadcn-ui/ui `LICENSE.md`](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md):
+
+```text
+MIT License
+
+Copyright (c) 2023 shadcn
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
